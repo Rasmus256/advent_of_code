@@ -16,6 +16,29 @@ def inputToEnum(input):
     if input == "C" or input == "Z":
         return "SCISSORS"
 
+def inputToDesiredRes(input):
+    if input == "A" or input == "X":
+        return "LOSE"
+    if input == "B" or input == "Y":
+        return "DRAW"
+    if input == "C" or input == "Z":
+        return "WIN"
+def desiredOutcomeToChoice(desired, opp):
+    if desired == "DRAW":
+        return opp
+    if desired == "WIN":
+        if opp == "ROCK":
+            return "PAPER"
+        if opp == "PAPER":
+            return "SCISSORS"
+        if opp == "SCISSORS":
+            return "ROCK"
+    if opp == "ROCK":
+        return "SCISSORS"
+    if opp == "PAPER":
+        return "ROCK"
+    if opp == "SCISSORS":
+        return "PAPER"
 def ourChoiceToScore(ourchoice):
     if ourchoice=="ROCK":
         return 1
@@ -31,7 +54,9 @@ score = 0
 for line in Lines:
     vars = line.split(' ')
     oppChoice = inputToEnum(vars[0].strip())
-    ourChoice = inputToEnum(vars[1].strip())
+    desiredOutcome = inputToDesiredRes(vars[1].strip())
+
+    ourChoice = desiredOutcomeToChoice(desiredOutcome, oppChoice)
     score += outcome(oppChoice, ourChoice)
     score += ourChoiceToScore(ourChoice)
 
