@@ -12,6 +12,8 @@ commonElemnent = ''
 for line in Lines:
     firstpart, secondpart = line[:len(line)//2], line[len(line)//2:]
     i = list(set(firstpart).intersection(secondpart))
+    if len(i) > 1:
+        raise NotImplementedError
     priorities.append(characterToInt(i[0]))
 
 print(priorities)

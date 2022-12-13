@@ -1,63 +1,26 @@
 file1 = open('puzzle_input.csv', 'r')
 
-def outcome(opp,our):
-    if opp==our:
-        return 3
-    elif (opp == "ROCK" and our == "PAPER" ) or (opp == "PAPER" and our == "SCISSORS" ) or (opp == "SCISSORS" and our == "ROCK" ):
-        return 6
-    else: 
-        return 0
+def characterToInt(ch):
+  if ch.isupper():
+    return ord(ch)-65+27
+  if ch.islower():
+    return ord(ch)-97+1
 
-def inputToEnum(input):
-    if input == "A" or input == "X":
-        return "ROCK"
-    if input == "B" or input == "Y":
-        return "PAPER"
-    if input == "C" or input == "Z":
-        return "SCISSORS"
-
-def inputToDesiredRes(input):
-    if input == "A" or input == "X":
-        return "LOSE"
-    if input == "B" or input == "Y":
-        return "DRAW"
-    if input == "C" or input == "Z":
-        return "WIN"
-def desiredOutcomeToChoice(desired, opp):
-    if desired == "DRAW":
-        return opp
-    if desired == "WIN":
-        if opp == "ROCK":
-            return "PAPER"
-        if opp == "PAPER":
-            return "SCISSORS"
-        if opp == "SCISSORS":
-            return "ROCK"
-    if opp == "ROCK":
-        return "SCISSORS"
-    if opp == "PAPER":
-        return "ROCK"
-    if opp == "SCISSORS":
-        return "PAPER"
-def ourChoiceToScore(ourchoice):
-    if ourchoice=="ROCK":
-        return 1
-    elif ourchoice=="PAPER":
-        return 2
-    elif ourchoice=="SCISSORS":
-        return 3
-    else:
-        raise NotImplementedError
+def divide_chunks(l, n):
+     
+    # looping till length l
+    for i in range(0, len(l), n):
+        yield l[i:i + n]
 
 Lines = file1.readlines()
-score = 0
-for line in Lines:
-    vars = line.split(' ')
-    oppChoice = inputToEnum(vars[0].strip())
-    desiredOutcome = inputToDesiredRes(vars[1].strip())
+priorities = []
+commonElemnent = ''
+for linechunk in divide_chunks(Lines,3):
+    line1, line2, line3 = linechunk[0].strip(), linechunk[1].strip(), linechunk[2].strip()
+    i = list(set(line1).intersection(line2).intersection(line3))
+    if len(i) > 1:
+        raise NotImplementedError
+    priorities.append(characterToInt(i[0]))
 
-    ourChoice = desiredOutcomeToChoice(desiredOutcome, oppChoice)
-    score += outcome(oppChoice, ourChoice)
-    score += ourChoiceToScore(ourChoice)
-
-print(score)
+print(priorities)
+print(sum(priorities))
