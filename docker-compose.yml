@@ -1,0 +1,26 @@
+version: '3.3'    
+services:
+  day1-part-1:
+    build:
+      context: ./day1/part1
+      dockerfile: ./Dockerfile
+  day1-part-2:
+    build:
+      context: ./day1/part2
+      dockerfile: ./Dockerfile
+  day2-part-1:
+    build:
+      context: ./day2/part1
+      dockerfile: ./Dockerfile
+  day2-part-2:
+    build:
+      context: ./day2/part2
+      dockerfile: ./Dockerfile
+  day3-part-1:
+    build:
+      context: ./day3/part1
+      dockerfile: ./Dockerfile
+  day3-part-2:
+    build:
+      context: ./day3/part2
+      dockerfile: ./Dockerfile

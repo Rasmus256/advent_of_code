@@ -11,5 +11,4 @@ for line in Lines:
         count=0
 
 counters.sort(reverse=True)
-print("Max element : ", counters[:1])
-print("Max three elements : ", counters[:3], " Sum ", sum(counters[:3]))
+print(counters[:1])
