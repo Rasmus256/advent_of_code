@@ -10,4 +10,6 @@ for line in Lines:
         counters.append(count)
         count=0
 
-print("Max value element : ", max(counters))
+counters.sort(reverse=True)
+print("Max element : ", counters[:1])
+print("Max three elements : ", counters[:3], " Sum ", sum(counters[:3]))
