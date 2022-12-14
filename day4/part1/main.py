@@ -1,11 +1,15 @@
 file1 = open('puzzle_input.csv', 'r')
 
 def fullyContains(first, second):
-  ret1 = int(first[0].strip()) <= int(second[0].strip())
-  ret2 = int(first[1].strip()) >= int(second[1].strip())
-  print(ret1)
-  print(ret2)
-  return ret1 and ret2
+  startBeforeOtherStart = int(first[0].strip()) <= int(second[0].strip())
+  endAfterOtherEnd = int(first[1].strip()) >= int(second[1].strip())
+  startWithinOtherRange = int(first[0].strip()) >= int(second[0].strip()) and int(first[0].strip()) <= int(second[1].strip())
+  endWithinOtherRange = int(first[1].strip()) >= int(second[0].strip()) and int(first[1].strip()) <= int(second[1].strip())
+  print(startBeforeOtherStart)
+  print(endAfterOtherEnd)
+  print(startWithinOtherRange)
+  print(endWithinOtherRange)
+  return startBeforeOtherStart or endAfterOtherEnd or startWithinOtherRange or endWithinOtherRange
 
 Lines = file1.readlines()
 fullycontainedElements = 0
