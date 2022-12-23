@@ -5,19 +5,16 @@ def fullyContains(first, second):
   endAfterOtherEnd = int(first[1].strip()) >= int(second[1].strip())
   startWithinOtherRange = int(first[0].strip()) >= int(second[0].strip()) and int(first[0].strip()) <= int(second[1].strip())
   endWithinOtherRange = int(first[1].strip()) >= int(second[0].strip()) and int(first[1].strip()) <= int(second[1].strip())
-  return startBeforeOtherStart or endAfterOtherEnd or startWithinOtherRange or endWithinOtherRange
+
+  return (startBeforeOtherStart and (endAfterOtherEnd or endWithinOtherRange)) or (startWithinOtherRange and (endAfterOtherEnd or endWithinOtherRange))
 
 Lines = file1.readlines()
 fullycontainedElements = 0
 for line in Lines:
-    # print(line)
     parts = line.split(',')
-    # print(parts)
     limits1 = parts[0].split('-')
-    # print(limits1)
     limits2 = parts[1].split('-')
-    # print(limits2)
-    if fullyContains(limits1, limits2) or fullyContains(limits2, limits1):
+    if fullyContains(limits1, limits2) and fullyContains(limits2, limits1):
       fullycontainedElements = fullycontainedElements+1
 
 print(fullycontainedElements)

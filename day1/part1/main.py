@@ -11,4 +11,4 @@ for line in Lines:
         count=0
 
 counters.sort(reverse=True)
-print(counters[:1])
+print(counters[:2])

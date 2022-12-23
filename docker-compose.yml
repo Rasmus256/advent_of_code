@@ -4,6 +4,20 @@ services:
     build:
       context: ./day1/part1
       dockerfile: ./Dockerfile
+  day1-part-1-event:
+    build:
+      context: ./day1/part1_event
+      dockerfile: ./Dockerfile
+    depends_on: 
+      amq:
+        condition: service_healthy
+  day1-part-2-event:
+    build:
+      context: ./day1/part2_event
+      dockerfile: ./Dockerfile
+    depends_on: 
+      amq:
+        condition: service_healthy
   day1-part-2:
     build:
       context: ./day1/part2
@@ -32,3 +46,56 @@ services:
     build:
       context: ./day4/part2
       dockerfile: ./Dockerfile
+  day5-part-1:
+    build:
+      context: ./day5/part1
+      dockerfile: ./Dockerfile
+    depends_on: 
+      amq:
+        condition: service_healthy
+  day5-part-2:
+    build:
+      context: ./day5/part2
+      dockerfile: ./Dockerfile
+    depends_on: 
+      amq:
+        condition: service_healthy
+  day6-part-1:
+    build:
+      context: ./day6/part1
+      dockerfile: ./Dockerfile
+    depends_on: 
+      amq:
+        condition: service_healthy
+  day6-part-2:
+    build:
+      context: ./day6/part2
+      dockerfile: ./Dockerfile
+    depends_on: 
+      amq:
+        condition: service_healthy
+  day7-part-1:
+    build:
+      context: ./day7/part1
+      dockerfile: ./Dockerfile
+    depends_on: 
+      amq:
+        condition: service_healthy
+  day7-part-2:
+    build:
+      context: ./day7/part2
+      dockerfile: ./Dockerfile
+    depends_on: 
+      amq:
+        condition: service_healthy
+  amq:
+    image: rmohr/activemq
+    container_name: 'amq'
+    ports: 
+      - 61613:61613
+      - 8161:8161
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8161"]
+      interval: 1s
+      timeout: 1s
+      retries: 5
