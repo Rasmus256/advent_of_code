@@ -1,58 +1,51 @@
 import time
 import sys
 import re
-
-import stomp
+import json
 
 fs = {}
 currentDir = {}
-upDir
-topic = "adventofcode.day7.part1"
-EOMRev = False
+largeDicts= []
 
-class MyListener(stomp.ConnectionListener):
-    def on_error(self, headers, message):
-        print('received an error "%s"' % message)
-    def on_message(self, message):
-        global countFromStart
-        if message.body == "EOM":
-            global EOMRev
-            EOMRev = True
+def calcSize(d, indent=0):
+   returnVal = 0
+   for key, value in d.items():
+      if key == "..":
+         i = 0
+      else: 
+        if isinstance(value, dict):
+             dictSize = calcSize(value, indent+1)
+             if dictSize <= 100000:
+                largeDicts.append(dictSize)
+             returnVal += dictSize
         else:
-            if message.command == 'cd /':
-                currentDir = fs
-            elif message.command.startswith('cd'):
-                print('switching dir to')
-            print(message)
-
-hosts = [('amq', 61613)]
-
-conn = stomp.Connection(host_and_ports=hosts)
-conn.set_listener('', MyListener())
-conn.connect('admin', 'admin', wait=True,headers = {'client-id': topic} )
-conn.subscribe(destination=topic, id=61, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
+            returnVal += value
+   return returnVal
 
 file1 = open('puzzle_input.csv', 'r')
-
 Lines = file1.readlines()
-currentCommand = {'sent':False}
 for line in Lines:
-    if line.startswith('$'):
-        if 'command' in currentCommand:
-            conn.send(body=currentCommand['result'], command = currentCommand['command'], result = currentCommand['result'], destination=topic)
-            currentCommand['sent']=True
-        currentCommand['command'] = line.strip().replace('$ ','')
-        currentCommand['result'] = []
-        currentCommand['sent']=False
+    if line.startswith('$ cd /'):
+        currentDir = fs
+    elif line.startswith("$ cd .."):
+        currentDir = currentDir[".."]
+    elif line.startswith("$ ls"):
+        i = 0 #noop
+    elif line.startswith("$ cd"):
+        folderName = line.split(' ')[2]
+        currentDir = currentDir[folderName]
+    elif line.startswith("dir "):
+        folderName = line.split(' ')[1]
+        subDir = {}
+        subDir[".."]=currentDir
+        currentDir[folderName] = subDir
     else:
-        if 'result' not in currentCommand:
-            currentCommand['result'] = []
-        currentCommand['result'].append(line.strip())
-if not currentCommand['sent']:
-    conn.send(body='|'.join(currentCommand['result']), command = currentCommand['command'], result = currentCommand['result'], destination=topic)
-conn.send(body="EOM", destination=topic)
-while not EOMRev:
-    print("Wating for EOM")
-    time.sleep(1)
+        parts=line.split(' ')
+        fileSize = int(parts[0])
+        fileName = parts[1]
+        currentDir[fileName] = fileSize
 
-conn.disconnect()
+#pretty(fs)
+
+print("fs size: " + str(calcSize(fs)))
+print("large dicts sum: " + str(sum(largeDicts)))
