@@ -90,6 +90,20 @@ services:
     build:
       context: ./day8/part2
       dockerfile: ./Dockerfile
+  day9-part-1:
+    build:
+      context: ./day9/part1
+      dockerfile: ./Dockerfile
+    depends_on: 
+      amq:
+        condition: service_healthy
+  day9-part-2:
+    build:
+      context: ./day9/part2
+      dockerfile: ./Dockerfile
+    depends_on: 
+      amq:
+        condition: service_healthy
   amq:
     image: rmohr/activemq
     container_name: 'amq'
