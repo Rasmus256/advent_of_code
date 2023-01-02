@@ -7,6 +7,7 @@ on:
     branches: [ "main" ]
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  TAG: $(date +%s)
 jobs:
 
   build:
@@ -33,4 +34,4 @@ jobs:
         file: day1/part1/Dockerfile
         context: day1/part1
         push: true
-        tags: rasmus256docker/advent_of_code_day1_part1:$(date +%s)
+        tags: rasmus256docker/advent_of_code_day1_part1:${{ TAG }}
