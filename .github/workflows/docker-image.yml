@@ -15,6 +15,11 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
+    - name: Docker meta
+      id: meta
+      uses: docker/metadata-action@v4
+      with:
+        tags: rasmus256docker/advent_of_code_day1_part1:$(date +%s)
     - uses: actions/checkout@v3
     - name: Docker Login
     # You may pin to the exact commit or the version.
@@ -34,4 +39,4 @@ jobs:
         file: day1/part1/Dockerfile
         context: day1/part1
         push: true
-        tags: ${{ env.TAG }}
+        tags: ${{ steps.meta.outputs.tags }}
