@@ -12,6 +12,8 @@ on:
       tag:
         required: true
         type: string
+env:
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 jobs:
   build:
   
