@@ -18,7 +18,8 @@ jobs:
     - name: Docker meta
       id: meta
       uses: docker/metadata-action@v4
-      with:
+      with:          
+        images: name/app
         tags: rasmus256docker/advent_of_code_day1_part1:$(date +%s)
     - uses: actions/checkout@v3
     - name: Docker Login
