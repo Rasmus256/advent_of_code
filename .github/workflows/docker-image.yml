@@ -25,4 +25,8 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
     - name: Build the Docker image
       working-directory: day1/part1
-      run: docker push . --file ./Dockerfile --tag my-image-name:$(date +%s)
+      run: docker build . --file ./Dockerfile --tag my-image-name:$(date +%s) 
+      
+    - name: Build the Docker image
+      working-directory: day1/part1
+      run: docker push my-image-name:$(date +%s)
