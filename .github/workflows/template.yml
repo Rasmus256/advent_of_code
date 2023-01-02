@@ -1,0 +1,28 @@
+
+name: continuous_deployment
+on:
+  workflow_call:
+    inputs:
+      day:
+        required: true
+        type: string
+      part:
+        required: true
+        type: string
+      tag:
+        required: true
+        type: string
+jobs:
+  build:
+    name: Build
+    steps:
+    - run: |
+        export FOO=rasmus256docker/advent_of_code_${{ inputs.day }}_${{ inputs.part}}:$(date +%s)
+        echo "::set-env name=FOO::$FOO"
+    - name: Build and push day1_part2
+      uses: docker/build-push-action@v3
+      with:
+        file: ${{inputs.day}}/${{inputs.part}}/Dockerfile
+        context: ${{inputs.day}}/${{inputs.part}}
+        push: true
+        tags: ${{ env.FOO }}
