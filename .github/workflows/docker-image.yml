@@ -23,10 +23,13 @@ jobs:
         username: rasmus256docker
         # Password or personal access token used to log against the Docker registry
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
+    - run: |
+        export FOO=$(date +%s)
+        echo "::set-env name=FOO::$FOO"
     - name: Build the Docker image
       working-directory: day1/part1
-      run: docker build . --file ./Dockerfile --tag my-image-name:$(date +%s) 
+      run: docker build . --file ./Dockerfile --tag my-image-name:$FOO 
       
     - name: Build the Docker image
       working-directory: day1/part1
-      run: docker push my-image-name:$(date +%s)
+      run: docker push my-image-name:$FOO
