@@ -34,5 +34,6 @@ jobs:
       uses: docker/build-push-action@v3
       with:
         file: day1/part1/Dockerfile
+        context: day1/part1
         push: true
         tags: my-image-name:latest
