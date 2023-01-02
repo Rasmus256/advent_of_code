@@ -33,7 +33,6 @@ jobs:
     - name: Build and push
       uses: docker/build-push-action@v3
       with:
-        context: day1/part1/*
         file: day1/part1/Dockerfile
         push: true
         tags: my-image-name:latest
