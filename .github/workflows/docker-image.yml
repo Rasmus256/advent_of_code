@@ -6,7 +6,7 @@ on:
   pull_request:
     branches: [ "main" ]
 env:
-  ACTIONS_ALLOW_UNSECURE_COMMANDS: true
+  ACTIONS_ALLOW_UNSECURE_COMMANDS: true,
   TAG: $(date +%s)
 jobs:
 
