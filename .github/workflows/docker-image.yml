@@ -32,7 +32,7 @@ jobs:
         # Password or personal access token used to log against the Docker registry
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
     - run: |
-        export FOO=$(date +%s)
+        export FOO=rasmus256docker/advent_of_code_day1_part1:$(date +%s)
         echo "::set-env name=FOO::$FOO"
     - name: Build and push day1_part1
       uses: docker/build-push-action@v3
