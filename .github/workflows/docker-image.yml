@@ -7,8 +7,7 @@ on:
     branches: [ "main" ]
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-  TAG: rasmus256docker/advent_of_code_day1_part1:test
-  LATEST_TAG: user/app:latest
+  TAG: rasmus256docker/advent_of_code_day1_part1:$(date +%s)
 jobs:
 
   build:
