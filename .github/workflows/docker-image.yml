@@ -9,7 +9,12 @@ env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   TAG: $(date +%s)
 jobs:
-
+  call-build-and-publish:
+        uses: Rasmus256/advent_of_code_2022/.github/workflows/template.yml@main
+        with:
+          day: day1
+          part: part1
+          tag: $(date +%s)
   build:
 
     runs-on: ubuntu-latest
