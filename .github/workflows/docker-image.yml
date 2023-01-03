@@ -7,59 +7,6 @@ env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   TAG: $(date +%s)
 jobs:
-  build:
-
-    runs-on: ubuntu-latest
-
-    steps:
-    - name: Docker meta
-      id: meta
-      uses: docker/metadata-action@v4
-      with:          
-        images: rasmus256docker/advent_of_code_day1_part1
-        tags: ${{env.TAG}}
-    - uses: actions/checkout@v3
-    - 
-      uses: dorny/paths-filter@v2
-      id: filter
-      with:
-        filters: |
-          d1p1:
-            - 'day1/part1/*'
-          d1p2:
-            - 'day1/part2/*'
-          d2p1:
-            - 'day2/part1/*'
-          d2p2:
-            - 'day2/part2/*'
-          d3p1:
-            - 'day3/part1/*'
-          d3p2:
-            - 'day3/part2/*'
-          d4p1:
-            - 'day4/part1/*'
-          d4p2:
-            - 'day4/part2/*'
-          d5p1:
-            - 'day5/part1/*'
-          d5p2:
-            - 'day5/part2/*'
-          d6p1:
-            - 'day6/part1/*'
-          d6p2:
-            - 'day6/part2/*'
-          d7p1:
-            - 'day7/part1/*'
-          d7p2:
-            - 'day7/part2/*'
-          d8p1:
-            - 'day8/part1/*'
-          d8p2:
-            - 'day8/part2/*'
-          d9p1:
-            - 'day9/part1/*'
-          d9p2:
-            - 'day9/part2/*'
   day1_part1:
     uses: Rasmus256/advent_of_code_2022/.github/workflows/template.yml@main
     with:
