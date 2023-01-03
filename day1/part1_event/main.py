@@ -17,27 +17,13 @@ class MyListener(stomp.ConnectionListener):
             global result
             result = max(result,int(message.body))
 
-
-
 hosts = [('amq.adventofcode.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
 conn.set_listener('', MyListener())
 conn.connect('admin', 'admin', wait=True,headers = {'client-id': 'clientname'} )
-conn.subscribe(destination='adventofcode.day1.part1', id=1, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
+conn.subscribe(destination='adventofcode.day1', id=1, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
 
-file1 = open('puzzle_input.csv', 'r')
-
-Lines = file1.readlines()
-count = 0
-for line in Lines:
-    if line != "\n":
-        count += int(line.strip())
-    else:
-        conn.send(body=str(count), destination='adventofcode.day1.part1')
-        count=0
-
-conn.send(body="EOM", destination='adventofcode.day1.part1')
 while not EOMRev:
     print("Wating for EOM")
     time.sleep(1)

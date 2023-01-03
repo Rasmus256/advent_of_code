@@ -42,7 +42,6 @@ jobs:
 
 
     - if: steps.filter.outputs.runneeded == 'true'
-      name: Build and push day1_part2
       uses: docker/build-push-action@v3
       with:
         file: ${{inputs.day}}/${{inputs.part}}/Dockerfile
