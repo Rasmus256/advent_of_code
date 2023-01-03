@@ -1,7 +1,6 @@
 FROM python:3.10-slim-buster
 
 ADD main.py .
-ADD puzzle_input.csv .
 
 RUN pip install stomp.py
 
