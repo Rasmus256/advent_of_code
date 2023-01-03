@@ -17,8 +17,6 @@ class MyListener(stomp.ConnectionListener):
             global results
             results.append(int(message.body))
 
-
-
 hosts = [('amq.adventofcode.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
