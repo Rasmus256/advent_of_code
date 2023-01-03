@@ -21,7 +21,8 @@ jobs:
         images: rasmus256docker/advent_of_code_day1_part1
         tags: ${{env.TAG}}
     - uses: actions/checkout@v3
-    - uses: dorny/paths-filter@v2
+    - if: never()
+      uses: dorny/paths-filter@v2
       id: filter
       with:
         filters: |
