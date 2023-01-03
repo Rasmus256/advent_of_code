@@ -11,7 +11,7 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix_p1: ${{ steps.matrix.outputs.value }}
-      tag: 1672771797
+      tag: $(date +%s)
     steps:
       - id: matrix
         run: |
