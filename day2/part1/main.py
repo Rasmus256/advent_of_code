@@ -26,6 +26,7 @@ def ourChoiceToScore(ourchoice):
     else:
         raise NotImplementedError
 
+        
 Lines = file1.readlines()
 score = 0
 for line in Lines:
