@@ -11,11 +11,28 @@ jobs:
     runs-on: ubuntu-latest
     outputs:
       matrix_p1: ${{ steps.matrix.outputs.value }}
-      matrix_p2: ${{ steps.matrix.outputs.value }}
     steps:
       - id: matrix
         run: |
-          echo '::set-output name=value::["day1", "day2", "day3", "day4", "day5", "day6", "day7", "day8", "day9"]'
+          echo '::set-output name=value::[
+          {d: "day1", p: "part1"},
+          {d: "day2", p: "part1"},
+          {d: "day3", p: "part1"},
+          {d: "day4", p: "part1"},
+          {d: "day5", p: "part1"},
+          {d: "day6", p: "part1"},
+          {d: "day7", p: "part1"},
+          {d: "day8", p: "part1"},
+          {d: "day9", p: "part1"},
+          {d: "day1", p: "part2"},
+          {d: "day2", p: "part2"},
+          {d: "day3", p: "part2"},
+          {d: "day4", p: "part2"},
+          {d: "day5", p: "part2"},
+          {d: "day6", p: "part2"},
+          {d: "day7", p: "part2"},
+          {d: "day8", p: "part2"},
+          {d: "day9", p: "part2"}]'
   build_part1:
     needs: [ setup ]
     strategy:
@@ -23,18 +40,7 @@ jobs:
         value: ${{fromJson(needs.setup.outputs.matrix_p1)}}
     uses: Rasmus256/advent_of_code_2022/.github/workflows/template.yml@main
     with:
-      day: ${{ matrix.value }}
-      part: part1
-      tag: $(date +%s)
-    secrets: inherit
-  build_part2:
-    needs: [ setup ]
-    strategy:
-      matrix:
-        value: ${{fromJson(needs.setup.outputs.matrix_p2)}}
-    uses: Rasmus256/advent_of_code_2022/.github/workflows/template.yml@main
-    with:
-      day: ${{ matrix.value }}
-      part: part2
+      day: ${{ matrix.value.d }}
+      part: ${{ matrix.value.p }}
       tag: $(date +%s)
     secrets: inherit
