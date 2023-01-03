@@ -18,7 +18,7 @@ on:
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 jobs:
-  build:
+  build-${{inputs.day}}-${{inputs.part}}-${{inputs.tag}}:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
