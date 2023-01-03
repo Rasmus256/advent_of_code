@@ -7,10 +7,22 @@ env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   TAG: $(date +%s)
 jobs:
-  day1_part1:
+  setup:
+    runs-on: ubuntu-latest
+    outputs:
+      matrix: ${{ steps.matrix.outputs.value }}
+    steps:
+      - id: matrix
+        run: |
+          echo '::set-output name=value::[\"day1\", \"day2\"]'
+  build:
+    needs: [ setup ]
+    strategy:
+      matrix:
+        value: ${{fromJson(needs.setup.outputs.matrix)}}
     uses: Rasmus256/advent_of_code_2022/.github/workflows/template.yml@main
     with:
-      day: day1
+      day: ${{ matrix.value }}
       part: part1
       tag: $(date +%s)
     secrets: inherit
@@ -18,6 +30,13 @@ jobs:
     uses: Rasmus256/advent_of_code_2022/.github/workflows/template.yml@main
     with:
       day: day1
+      part: part2
+      tag: $(date +%s)
+    secrets: inherit
+  day2_part2:
+    uses: Rasmus256/advent_of_code_2022/.github/workflows/template.yml@main
+    with:
+      day: day2
       part: part2
       tag: $(date +%s)
     secrets: inherit
