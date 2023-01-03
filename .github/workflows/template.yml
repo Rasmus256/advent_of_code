@@ -51,4 +51,6 @@ jobs:
         file: ${{inputs.day}}/${{inputs.part}}/Dockerfile
         context: ${{inputs.day}}/${{inputs.part}}
         push: true
-        tags: ${{ env.FOO }}
+        tags: |
+          latest
+          ${{ env.FOO }}
