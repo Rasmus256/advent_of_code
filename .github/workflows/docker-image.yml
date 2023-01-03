@@ -5,12 +5,13 @@ on:
     branches: [ "main" ]
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
-  TAG: $(date +%s)
+  TAG: 
 jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
       matrix_p1: ${{ steps.matrix.outputs.value }}
+      tag: $(date +%s)
     steps:
       - id: matrix
         run: |
@@ -24,5 +25,5 @@ jobs:
     with:
       day: ${{ matrix.value.d }}
       part: ${{ matrix.value.p }}
-      tag: ${{ env.TAG }}
+      tag: ${{ needs.setup.outputs.tag }}
     secrets: inherit
