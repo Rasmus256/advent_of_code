@@ -8,6 +8,7 @@ def outcome(opp,our):
     else: 
         return 0
 
+    
 def inputToEnum(input):
     if input == "A" or input == "X":
         return "ROCK"
