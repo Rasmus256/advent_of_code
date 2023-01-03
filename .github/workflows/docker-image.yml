@@ -15,6 +15,7 @@ jobs:
           day: day1
           part: part1
           tag: $(date +%s)
+        secrets: inherit
   build:
 
     runs-on: ubuntu-latest
