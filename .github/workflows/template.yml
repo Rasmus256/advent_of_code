@@ -12,6 +12,9 @@ on:
       tag:
         required: true
         type: string
+    secrets:
+      DOCKERHUB_PASSWORD:
+        required: true
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 jobs:
