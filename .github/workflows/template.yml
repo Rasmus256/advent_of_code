@@ -19,7 +19,7 @@ env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 jobs:
   build:
-    name: build-${{inputs.day}}/${{inputs.part}}-${{inputs.tag}}
+    name: build-${{inputs.day}}/${{inputs.part}}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
