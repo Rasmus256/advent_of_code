@@ -52,5 +52,5 @@ jobs:
         context: ${{inputs.day}}/${{inputs.part}}
         push: true
         tags: |
-          latest
+          rasmus256docker/advent_of_code_${{ inputs.day }}_${{ inputs.part}}:latest
           ${{ env.FOO }}
