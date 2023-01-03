@@ -10,33 +10,31 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     outputs:
-      matrix: ${{ steps.matrix.outputs.value }}
+      matrix_p1: ${{ steps.matrix.outputs.value }}
+      matrix_p2: ${{ steps.matrix.outputs.value }}
     steps:
       - id: matrix
         run: |
-          echo '::set-output name=value::["day1", "day2"]'
-  build:
+          echo '::set-output name=value::["day1", "day2", "day3", "day4", "day5", "day6", "day7", "day8", "day9"]'
+  build_part1:
     needs: [ setup ]
     strategy:
       matrix:
-        value: ${{fromJson(needs.setup.outputs.matrix)}}
+        value: ${{fromJson(needs.setup.outputs.matrix_p1)}}
     uses: Rasmus256/advent_of_code_2022/.github/workflows/template.yml@main
     with:
       day: ${{ matrix.value }}
       part: part1
       tag: $(date +%s)
     secrets: inherit
-  day1_part2:
+  build_part2:
+    needs: [ setup ]
+    strategy:
+      matrix:
+        value: ${{fromJson(needs.setup.outputs.matrix_p2)}}
     uses: Rasmus256/advent_of_code_2022/.github/workflows/template.yml@main
     with:
-      day: day1
-      part: part2
-      tag: $(date +%s)
-    secrets: inherit
-  day2_part2:
-    uses: Rasmus256/advent_of_code_2022/.github/workflows/template.yml@main
-    with:
-      day: day2
+      day: ${{ matrix.value }}
       part: part2
       tag: $(date +%s)
     secrets: inherit
