@@ -62,7 +62,7 @@ jobs:
           d9p2:
             - 'day9/part2/*'
   day1_part1:
-    if: jobs.build.steps.filter.outputs.d1p1 == 'true'
+    if: build.steps.filter.outputs.d1p1 == 'true'
     uses: Rasmus256/advent_of_code_2022/.github/workflows/template.yml@main
     with:
       day: day1
