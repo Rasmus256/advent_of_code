@@ -40,7 +40,7 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
     - 
-      if: steps.filter.runneeded == 'true'
+      if: steps.filter.outputs.runneeded == 'true'
       run: |
         export FOO=rasmus256docker/advent_of_code_${{ inputs.day }}_${{ inputs.part}}:$(date +%s)
         echo "::set-env name=FOO::$FOO"
