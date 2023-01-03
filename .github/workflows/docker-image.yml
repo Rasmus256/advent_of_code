@@ -9,13 +9,6 @@ env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
   TAG: $(date +%s)
 jobs:
-  call-build-and-publish:
-        uses: Rasmus256/advent_of_code_2022/.github/workflows/template.yml@main
-        with:
-          day: day1
-          part: part1
-          tag: $(date +%s)
-        secrets: inherit
   build:
 
     runs-on: ubuntu-latest
@@ -68,40 +61,11 @@ jobs:
             - 'day9/part1/*'
           d9p2:
             - 'day9/part2/*'
-    - name: Docker Login
-    # You may pin to the exact commit or the version.
-    # uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
-      uses: docker/login-action@v2.1.0
-      with:
-        # Username used to log against the Docker registry
-        username: rasmus256docker
-        # Password or personal access token used to log against the Docker registry
-        password: ${{ secrets.DOCKERHUB_PASSWORD }}
-    - 
-      if: steps.filter.outputs.d1p1 == 'true'
-      run: |
-        export FOO=rasmus256docker/advent_of_code_day1_part1:$(date +%s)
-        echo "::set-env name=FOO::$FOO"
-    - 
-      if: steps.filter.outputs.d1p1 == 'true'
-      name: Build and push day1_part1
-      uses: docker/build-push-action@v3
-      with:
-        file: day1/part1/Dockerfile
-        context: day1/part1
-        push: true
-        tags: ${{ env.FOO }}
-    - 
-      if: steps.filter.outputs.d1p2 == 'true'
-      run: |
-        export FOO=rasmus256docker/advent_of_code_day1_part2:$(date +%s)
-        echo "::set-env name=FOO::$FOO"
-    - 
-      if: steps.filter.outputs.d1p2 == 'true'
-      name: Build and push day1_part2
-      uses: docker/build-push-action@v3
-      with:
-        file: day1/part2/Dockerfile
-        context: day1/part2
-        push: true
-        tags: ${{ env.FOO }}
+  day1_part1:
+    if: jobs.build.steps.filter.outputs.d1p1 == 'true'
+    uses: Rasmus256/advent_of_code_2022/.github/workflows/template.yml@main
+    with:
+      day: day1
+      part: part1
+      tag: $(date +%s)
+    secrets: inherit
