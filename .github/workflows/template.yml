@@ -19,7 +19,7 @@ env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 jobs:
   build:
-    name: build-${{inputs.day}}/${{inputs.part}}
+    name: build-${{inputs.day}}/${{inputs.part}}/${{inputs.tag}}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@v3
@@ -42,7 +42,7 @@ jobs:
 
     - #if: steps.filter.outputs.runneeded == 'true'
       run: |
-        export FOO=rasmus256docker/advent_of_code_${{ inputs.day }}_${{ inputs.part}}:$(date +%s)
+        export FOO=rasmus256docker/advent_of_code_${{ inputs.day }}_${{ inputs.part}}:${{inputs.tag}}
         echo "::set-env name=FOO::$FOO"
     - #if: steps.filter.outputs.runneeded == 'true'
       name: Build and push day1_part2
