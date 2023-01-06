@@ -10,6 +10,5 @@ for line in Lines:
         counters.append(count)
         count=0
         
-        
 counters.sort(reverse=True)
 print(counters[:2])
