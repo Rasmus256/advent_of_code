@@ -9,5 +9,6 @@ for line in Lines:
     else:
         counters.append(count)
         count=0
+        
 counters.sort(reverse=True)
 print(sum(counters[:3]))
