@@ -18,7 +18,7 @@ Lines = file1.readlines()
 for line in Lines:
     line = line.strip()
     parts = line.split(' ')
-    for x in range(int(parts[1])):
+    for x in range(int(parts[1])): 
       conn.send(body=f"{parts[0]}" , destination=topic)
 conn.send(body="EOM", destination=topic)
 
