@@ -5,4 +5,4 @@ ADD puzzle_input.csv .
 
 RUN pip install stomp.py
 
-CMD ["python", "./main.py"]  
+CMD ["python", "./main.py"] 
