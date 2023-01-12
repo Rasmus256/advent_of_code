@@ -31,12 +31,12 @@ class MyListener(stomp.ConnectionListener):
               if allDifferent(offsetAndContent[1]):
                 countFromStart[offsetAndContent[2]] = int(offsetAndContent[0])
 
-hosts = [('amq.adventofcode.svc.cluster.local', 61613)]
+hosts = [('amq.default.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
 conn.set_listener('', MyListener())
 conn.connect('admin', 'admin', wait=True,headers = {'client-id': topic} )
-conn.subscribe(destination=topic, id=61, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
+conn.subscribe(destination=topic, id=62, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
 
 file1 = open('puzzle_input.csv', 'r')
 
