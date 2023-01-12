@@ -201,7 +201,7 @@ class MyListener(stomp.ConnectionListener):
 
             TailPositions.append(f"{TailPos[0]}|{TailPos[1]}")
 
-hosts = [('amq.adventofcode.svc.cluster.local', 61613)]
+hosts = [('amq.default.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
 conn.set_listener('', MyListener())

@@ -106,7 +106,7 @@ class MyListener(stomp.ConnectionListener):
                     moveUp(HeadPos)
                 case 'D':
                     moveDown(HeadPos)
-            updateTailPos(HeadPos, TailPos)
+            updateTailPos(HeadPos, TailPos) 
             TailPositions.append(f"{TailPos[0]}|{TailPos[1]}")
 
 hosts = [('amq.default.svc.cluster.local', 61613)]
