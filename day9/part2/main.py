@@ -205,7 +205,7 @@ hosts = [('amq.default.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
 conn.set_listener('', MyListener())
-conn.connect('admin', 'admin', wait=True,headers = {'client-id': topic} )
+conn.connect('admin', 'admin', wait=True,headers = {'client-id': topic+"part2"} )
 conn.subscribe(destination=topic, id=92, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
 
 while not EOMRev:
