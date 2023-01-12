@@ -5,7 +5,7 @@ import re
 import stomp
 
 countFromStart = {"Test": 0}
-topic = "adventofcode.day9"
+topic = "adventofcode.day9.part1"
 EOMRev = False
 
 HeadPos = [0,0]
@@ -113,9 +113,17 @@ hosts = [('amq.default.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
 conn.set_listener('', MyListener())
-conn.connect('admin', 'admin', wait=True,headers = {'client-id': topic+'part1'} )
+conn.connect('admin', 'admin', wait=True,headers = {'client-id': topic} )
 conn.subscribe(destination=topic, id=91, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
+file1 = open('puzzle_input.csv', 'r')
 
+Lines = file1.readlines()
+for line in Lines:
+    line = line.strip()
+    parts = line.split(' ')
+    for x in range(int(parts[1])):
+      conn.send(body=f"{parts[0]}" , destination=topic)
+conn.send(body="EOM", destination=topic)
 while not EOMRev:
     print("Wating for EOM")
     time.sleep(1)
