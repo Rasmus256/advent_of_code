@@ -184,7 +184,7 @@ class MyListener(stomp.ConnectionListener):
                     moveLeft(HeadPos)
                 case 'U':
                     moveUp(HeadPos)
-                case 'D':
+                case 'D': 
                     moveDown(HeadPos)
             # print(f"  ---1---")
             updateTailPos(HeadPos, _1Pos)
