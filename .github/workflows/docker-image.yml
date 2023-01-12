@@ -28,5 +28,5 @@ jobs:
     with:
       day: ${{ matrix.value.d }}
       part: ${{ matrix.value.p }}
-      tag: ${{ needs.setup.outputs.tag }}
+      tag: "1-${{ needs.setup.outputs.tag }}"
     secrets: inherit
