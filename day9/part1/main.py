@@ -20,7 +20,7 @@ def moveDown(element):
 def moveRight(element):
     element[0] += 1
 def moveLeft(element):
-    element[0] -= 1
+    element[0] -= 1   
 
 def updateTailPos(HeadPos, TailPos):
     
