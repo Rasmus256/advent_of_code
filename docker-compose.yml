@@ -104,6 +104,13 @@ services:
     depends_on: 
       amq.default.svc.cluster.local:
         condition: service_healthy
+  day10-part-2:
+    build:
+      context: ./day10/part2
+      dockerfile: ./Dockerfile
+    depends_on: 
+      amq.default.svc.cluster.local:
+        condition: service_healthy
   amq.default.svc.cluster.local:
     image: rmohr/activemq
     container_name: 'amq'

@@ -17,10 +17,8 @@ def delay(body):
         return 1
     return 2
 def updateState(body, registers):
-    print("Updating")
     if str(body).startswith("addx "):
         registers["x"] += int(body.split(' ')[1])
-        print(registers)
 
 class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
@@ -40,7 +38,6 @@ class MyListener(stomp.ConnectionListener):
                 if  globalClock == initDelay or (globalClock-initDelay) % incrementDelay == 0:
                     signalStrengths.append(globalClock*registers["x"])
                     val = registers["x"]
-                    print(f"{globalClock} * {val}: signal strength")
                 if i == delay(message.body) -1:
                     updateState(message.body, registers)
 hosts = [('amq.default.svc.cluster.local', 61613)]
@@ -59,6 +56,5 @@ conn.send(body="EOM", destination=topic)
 while not EOMRev:
     print("Wating for EOM")
     time.sleep(1)
-print(signalStrengths)
 print(sum(signalStrengths))
 conn.disconnect()
