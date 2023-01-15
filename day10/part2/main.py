@@ -60,7 +60,7 @@ while not EOMRev:
     print("Wating for EOM")
     time.sleep(1)
 
-CRTOut[0] = TMPOut[0:40]
+CRTOut[0] = TMPOut[0:40] 
 CRTOut[1] = TMPOut[40:80]
 CRTOut[2] = TMPOut[80:120]
 CRTOut[3] = TMPOut[120:160]
