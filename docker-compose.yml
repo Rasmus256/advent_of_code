@@ -97,29 +97,23 @@ services:
   #   depends_on: 
   #     amq:
   #       condition: service_healthy
-  day10-part-1:
+  day11-part-1:
     build:
-      context: ./day10/part1
+      context: ./day11/part1
       dockerfile: ./Dockerfile
-    depends_on: 
-      amq.default.svc.cluster.local:
-        condition: service_healthy
-  day10-part-2:
+  day11-part-2:
     build:
-      context: ./day10/part2
+      context: ./day11/part2
       dockerfile: ./Dockerfile
-    depends_on: 
-      amq.default.svc.cluster.local:
-        condition: service_healthy
-  amq.default.svc.cluster.local:
-    image: rmohr/activemq
-    container_name: 'amq'
-    ports: 
-      - 61613:61613
-      - 8161:8161
-      - 5672:5672
-    healthcheck:
-      test: ["CMD", "curl", "-f", "http://localhost:8161"]
-      interval: 1s
-      timeout: 1s
-      retries: 5
+  # amq.default.svc.cluster.local:
+  #   image: rmohr/activemq
+  #   container_name: 'amq'
+  #   ports: 
+  #     - 61613:61613
+  #     - 8161:8161
+  #     - 5672:5672
+  #   healthcheck:
+  #     test: ["CMD", "curl", "-f", "http://localhost:8161"]
+  #     interval: 1s
+  #     timeout: 1s
+  #     retries: 5
