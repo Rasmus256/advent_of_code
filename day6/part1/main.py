@@ -17,7 +17,7 @@ class MyListener(stomp.ConnectionListener):
     def on_message(self, message):
         global countFromStart
         if message.body == "EOM":
-            global EOMRev
+            global EOMRev 
             EOMRev = True
         elif message.body.startswith("EOL|"):
             spl = message.body.split("|")
