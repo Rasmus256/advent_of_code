@@ -1,5 +1,5 @@
 file1 = open('puzzle_input.csv', 'r')
-
+ 
 Lines = file1.readlines()
 counters = []
 count = 0
