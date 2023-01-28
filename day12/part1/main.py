@@ -101,7 +101,6 @@ for (i,s) in enumerate(input):
             end = nodeid
         val = ordOfNode(c)
 
-
         if  j == 0:
             if ordOfNode(input[i][j+1]) == val+1 or ordOfNode(input[i][j+1]) <= val:
                 # print(nodeid + " > " + calcnodeid(i,j+1) + "|" + str(input[i][j+1]) + " / " + c + " b1 " + str(ordOfNode(input[i][j+1]) == val+1) + " b2 " + str(ordOfNode(input[i][j+1]) <= val))
