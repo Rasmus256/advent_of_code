@@ -2,11 +2,11 @@ import sys
 import math
 from dijkstar import Graph, find_path
 
-def ordOfNode(str):
-    val = str
-    if str == "S":
+def ordOfNode(st):
+    val = st
+    if st == "S":
         val = "a"
-    elif str == "E":
+    elif st == "E":
         val = "z"
     return ord(val)
 
@@ -87,7 +87,7 @@ possibleStarts = []
 
 for (i,s) in enumerate(input):
     for (j,c) in enumerate(s.strip()):
-        if ordOfNode(calcnodeid(i,j) == ord("a")):
+        if ordOfNode(c) == ord("a"):
             possibleStarts.append(calcnodeid(i,j))
 
 print("done scaffolding graph builder")
