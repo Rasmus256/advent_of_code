@@ -141,7 +141,7 @@ for (i,s) in enumerate(input):
 print("Start is ", start)
 print("End is ", end)
 
-minLen = 0
+minLen = 99999999999999
 for st in possibleStarts:
     p = find_path(graph, st, end)
     print("node: ", st, " len: ",p.total_cost)
