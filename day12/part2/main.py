@@ -83,7 +83,12 @@ def calcnodeid(i,j):
 
 print("initiating graph builder")
 graph = Graph()
+possibleStarts = []
 
+for (i,s) in enumerate(input):
+    for (j,c) in enumerate(s.strip()):
+        if ordOfNode(calcnodeid(i,j) == ord("a"))
+            possibleStarts.append(calcnodeid(i,j))
 
 print("done scaffolding graph builder")
 for (i,s) in enumerate(input):
@@ -137,4 +142,4 @@ print("Start is ", start)
 print("End is ", end)
 
 p = find_path(graph, start, end)
-print(p)
+print(p.total_cost)
