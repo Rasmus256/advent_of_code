@@ -87,7 +87,7 @@ possibleStarts = []
 
 for (i,s) in enumerate(input):
     for (j,c) in enumerate(s.strip()):
-        if ordOfNode(calcnodeid(i,j) == ord("a"))
+        if ordOfNode(calcnodeid(i,j) == ord("a")):
             possibleStarts.append(calcnodeid(i,j))
 
 print("done scaffolding graph builder")
