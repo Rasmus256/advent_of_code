@@ -145,7 +145,7 @@ minLen = 0
 for st in possibleStarts:
     p = find_path(graph, start, end)
     print(p)
-    math.min(p.total_cost, minLen)
+    min(p.total_cost, minLen)
 
 print("---")
 print(minLen) 
