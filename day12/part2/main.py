@@ -143,9 +143,13 @@ print("End is ", end)
 
 minLen = 99999999999999
 for st in possibleStarts:
-    p = find_path(graph, st, end)
-    print("node: ", st, " len: ",p.total_cost)
-    min(p.total_cost, minLen)
+    try:
+        p = find_path(graph, st, end)
+        print("node: ", st, " len: ",p.total_cost)
+        min(p.total_cost, minLen)
+    except NoPathError:
+        print("node: ", st, " no path.")
+
 
 print("---")
 print(minLen) 
