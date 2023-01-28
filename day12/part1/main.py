@@ -73,7 +73,6 @@ realInput = [
 input = realInput
 
 print("input: " + str(input))
-nodes = []
 start = ""
 end = ""
 
@@ -83,15 +82,6 @@ def calcnodeid(i,j):
 
 
 print("initiating graph builder")
-for (i,s) in enumerate(input):
-    print("row done "+str(i))
-    for (j,c) in enumerate(s.strip()):
-        nodes.append(calcnodeid(i,j))
-init_graph = {}
-
- 
-for node in nodes:
-    init_graph[node] = {}
 graph = Graph()
 
 
@@ -146,10 +136,6 @@ for (i,s) in enumerate(input):
 
 print("Start is " + start)
 print("End is " + end)
-    
-
-
-#( init_graph, start_vertex=start)
 
 p = find_path(graph, start, end)
 print(p)
