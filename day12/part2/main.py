@@ -1,6 +1,6 @@
 import sys
 import math
-from dijkstar import Graph, find_path
+from dijkstar import Graph, find_path, NoPathError
 
 def ordOfNode(st):
     val = st
