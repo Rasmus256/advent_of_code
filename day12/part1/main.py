@@ -134,8 +134,8 @@ for (i,s) in enumerate(input):
                 # print(nodeid + " 8 ^ " + calcnodeid(i-1,j) + "|" + str(input[i-1][j]) + " / " + c + " b1 " + str(ordOfNode(input[i-1][j]) == val+1) + " b2 " + str(ordOfNode(input[i-1][j]) <= val))
                 graph.add_edge(nodeid,calcnodeid(i-1,j))
 
-print("Start is " + start)
-print("End is " + end)
+print("Start is ", start)
+print("End is ", end)
 
 p = find_path(graph, start, end)
 print(p)
