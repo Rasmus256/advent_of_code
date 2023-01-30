@@ -1,2 +1,2 @@
 Dijkstar==2.6.0
-stomp.py==8.1.0\nstomp.py==8.1.0
+stomp.py==8.1.0
