@@ -13,7 +13,7 @@ class MyListener(stomp.ConnectionListener):
             global EOMRev
             EOMRev = True
         else:
-            print("message.body")
+            print(f"{message.body}")
 
 hosts = [('amq.default.svc.cluster.local', 61613)]
 
