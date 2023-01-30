@@ -142,14 +142,17 @@ print("Start is ", start)
 print("End is ", end)
 
 minLen = 99999999999999
+lens = []
 for st in possibleStarts:
     try:
         p = find_path(graph, st, end)
         print("node: ", st, " len: ",p.total_cost)
         min(p.total_cost, minLen)
+        lens.append(p.total_cost)
     except NoPathError:
-        print("node: ", st, " no path.")
-
+        #print("node: ", st, " no path.")
+        noop = True
 
 print("---")
 print(minLen) 
+print(min(lens))
