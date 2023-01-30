@@ -72,7 +72,6 @@ realInput = [
 ]
 input = realInput
 
-print("input: " + str(input))
 start = ""
 end = ""
 
@@ -81,7 +80,6 @@ def calcnodeid(i,j):
     return i*10000+j
 
 
-print("initiating graph builder")
 graph = Graph()
 possibleStarts = []
 
@@ -90,13 +88,10 @@ for (i,s) in enumerate(input):
         if ordOfNode(c) == ord("a"):
             possibleStarts.append(calcnodeid(i,j))
 
-print("done scaffolding graph builder")
 for (i,s) in enumerate(input):
-    print("row done "+str(i))
     for (j,c) in enumerate(s.strip()):
         
         nodeid = calcnodeid(i,j)
-        # print("--- "+nodeid+" ---")
         val = c
         if c == "S":
             val = "a"
@@ -108,51 +103,37 @@ for (i,s) in enumerate(input):
 
         if  j == 0:
             if ordOfNode(input[i][j+1]) == val+1 or ordOfNode(input[i][j+1]) <= val:
-                # print(nodeid + " > " + calcnodeid(i,j+1) + "|" + str(input[i][j+1]) + " / " + c + " b1 " + str(ordOfNode(input[i][j+1]) == val+1) + " b2 " + str(ordOfNode(input[i][j+1]) <= val))
                 graph.add_edge(nodeid,calcnodeid(i,j+1), 1)
         elif j == len(s.strip())-1:
             if ordOfNode(input[i][j-1]) == val+1 or ordOfNode(input[i][j-1]) <= val:
-                # print(nodeid + " < " + calcnodeid(i,j-1) + "|" + str(input[i][j-1]) + " / " + c + " b1 " + str(ordOfNode(input[i][j-1]) == val+1) + " b2 " + str(ordOfNode(input[i][j-1]) <= val))
                 graph.add_edge(nodeid,calcnodeid(i,j-1), 1)
         elif j > 0 and j < len(s.strip())-1 :
             if ordOfNode(input[i][j+1]) == val+1 or ordOfNode(input[i][j+1]) <= val:
-                # print(nodeid + " > " + calcnodeid(i,j+1) + "|" + str(input[i][j+1]) + " / " + c + " b1 " + str(ordOfNode(input[i][j+1]) == val+1) + " b2 " + str(ordOfNode(input[i][j+1]) <= val))
                 graph.add_edge(nodeid,calcnodeid(i,j+1), 1)
             if ordOfNode(input[i][j-1]) == val+1 or ordOfNode(input[i][j-1]) <= val:
-                # print(nodeid + " < " + calcnodeid(i,j-1) + "|" + str(input[i][j-1]) + " / " + c + " b1 " + str(ordOfNode(input[i][j-1]) == val+1) + " b2 " + str(ordOfNode(input[i][j-1]) <= val))
                 graph.add_edge(nodeid,calcnodeid(i,j-1), 1)
 
         if  i == 0:
             if ordOfNode(input[i+1][j]) == val+1 or ordOfNode(input[i+1][j]) <= val:
-                # print(nodeid + " 5 v " + calcnodeid(i+1,j) + "|" + str(input[i+1][j]) + " / " + c + " b1 " + str(ordOfNode(input[i+1][j]) == val+1) + " b2 " + str(ordOfNode(input[i+1][j]) <= val))
                 graph.add_edge(nodeid,calcnodeid(i+1,j), 1)
         elif i == len(input)-1:
             if ordOfNode(input[i-1][j]) == val+1 or ordOfNode(input[i-1][j]) <= val:
-                # print(nodeid + " 6 ^ " + calcnodeid(i-1,j) + "|" + str(input[i-1][j]) + " / " + c + " b1 " + str(ordOfNode(input[i-1][j]) == val+1) + " b2 " + str(ordOfNode(input[i-1][j]) <= val))
                 graph.add_edge(nodeid,calcnodeid(i-1,j), 1)
         elif i < len(input)-1 and i > 0:
             if ordOfNode(input[i+1][j]) == val+1 or ordOfNode(input[i+1][j]) <= val:
-                # print(nodeid + " 7 v " + calcnodeid(i+1,j) + "|" + str(input[i+1][j]) + " / " + c + " b1 " + str(ordOfNode(input[i+1][j]) == val+1) + " b2 " + str(ordOfNode(input[i+1][j])) + str(val))
                 graph.add_edge(nodeid,calcnodeid(i+1,j), 1)
             if ordOfNode(input[i-1][j]) == val+1 or ordOfNode(input[i-1][j]) <= val:
-                # print(nodeid + " 8 ^ " + calcnodeid(i-1,j) + "|" + str(input[i-1][j]) + " / " + c + " b1 " + str(ordOfNode(input[i-1][j]) == val+1) + " b2 " + str(ordOfNode(input[i-1][j]) <= val))
                 graph.add_edge(nodeid,calcnodeid(i-1,j), 1)
 
-print("Start is ", start)
-print("End is ", end)
 
 minLen = 99999999999999
 lens = []
 for st in possibleStarts:
     try:
         p = find_path(graph, st, end)
-        print("node: ", st, " len: ",p.total_cost)
         min(p.total_cost, minLen)
         lens.append(p.total_cost)
     except NoPathError:
-        #print("node: ", st, " no path.")
         noop = True
 
-print("---")
-print(minLen) 
 print(min(lens))
