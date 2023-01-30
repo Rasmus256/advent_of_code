@@ -1,80 +1,155 @@
-import time
 import sys
-import re
-import json
+import math
+from dijkstar import Graph, find_path, NoPathError
+
+def ordOfNode(st):
+    val = st
+    if st == "S":
+        val = "a"
+    elif st == "E":
+        val = "z"
+    return ord(val)
 
 
-Monkeys = []
+testInput = [
+"SbcdefghijklmnopqrstuvwxyzE",
+"SbcdefghijklmnopqrstuvwxyzE",
+"SbcdefghijklmnopqrstuvwxyzE",
+"SbcdefghijklmnopqrstuvwxyzE",
+"SbcdefghijklmnopqrstuvwxyzE",
+"SbcdefghijklmnopqrstuvwxyzE",
+]
 
-def multiply(old, by):
-    return old*by
-def multiplySelf(old, by):
-    return old*old
-def add(old, by):
-    return old+by
-
-class Monkey():
-    def __init__(self, items, operation, secondParam, testDivBy, trueThrowTo, falseThrowTo):
-        self.items = items
-        self.operation = operation
-        self.secondParam = secondParam
-        self.testDivBy = testDivBy
-        self.trueThrowTo = trueThrowTo
-        self.falseThrowTo = falseThrowTo
-    inspectCount = 0 
-    items = []
-    operation = ""
-    secondParam = 0
-    testDivBy = 1
-    trueThrowTo= 1
-    falseThrowTo= 1
-    def perform_operation(self, item):
-        wl = item
-        item = self.operation(wl, self.secondParam)
-        global Monkeys
-        if item%self.testDivBy == 0:
-            Monkeys[self.trueThrowTo].items.append(item % divisor)
-        else:
-            Monkeys[self.falseThrowTo].items.append(item % divisor)
-    def throwAllItems(self):
-        i = self.items
-        for item in i:
-            self.inspectCount+=1
-            self.perform_operation(item)
-        self.items.clear()
+dumbInput = [
+    "Sbc",
+    "fed",
+    "ghE"
+]
 
 
-# m0 =  Monkey([79,98], multiply, 19, 23,2,3)
-# m1 =  Monkey([54, 65, 75, 74], add, 6, 19,2,0)
-# m2 =  Monkey([79, 60, 97], multiplySelf, 0, 13,1,3)
-# m3 =  Monkey([74], add, 3, 17,0,1)
-m0 =  Monkey([74, 73, 57, 77, 74], multiply, 11, 19,6,7)
-m1 =  Monkey([99, 77, 79], add, 8, 2,6,0)
-m2 =  Monkey([64, 67, 50, 96, 89, 82, 82], add, 1, 3,5,3)
-m3 =  Monkey([88], multiply, 7, 17,5,4)
-m4 = Monkey([80, 66, 98, 83, 70, 63, 57, 66], add, 4, 13, 0,1)
-m5 = Monkey([81, 93, 90, 61, 62, 64], add, 7,7,1,4)
-m6 = Monkey([69, 97, 88, 93],multiplySelf, 0, 5,7,2)
-m7 = Monkey([59, 80], add, 6, 11,2,3)
-divisor = 19*2*3*17*13*7*5*11
+realInput = [
+"abcccaaaaaaccccccccaaaaaccccccaaaaaaccccccaaaaaaaacccaaaaaaaccaaaacccccccccccccccccccccccccaaaaaacccccccccccccccccccccccccccccaaaaaa",
+"abcccaaaaaacccccccaaaaaaccccaaaaaaaacccccccaaaaaaaaaaaaaaaaccaaaaacccccccccccccccccccccccccaaaaaacccccccccccccccccccccccccccccaaaaaa",
+"abccccaaaaacaaaccaaaaaaaacccaaaaaaaaacccccccaaaaaaaaaaaaaaaacaaaaaacccccccccaaacccccccccccaaaaaaaaccccccccccaaccccccccccccccccaaaaaa",
+"abccccaaaaccaaaaaaaaaaaaacccaaaaaaaaaacccccaaaaaaaaaaaaaaaaaaacaaaacccccccccaaaacccccccccaaaaaaaaaacccccccccaaaccccccccccccccccccaaa",
+"abcccccccccaaaaaacccaacccccccccaaacaaaccccccaacccccccaaaaaaaaacaacccccccccccaaaacccccccccaaaaaaaaaacccccccccaaaccacaaccccccccccccaaa",
+"abcccccccccaaaaaacccaacccccccccaaacccccccccccccccccccaaaacaaaacccccccaacaaccaaaccccccccccaccaaaaacacccccccccaaaacaaaaccccccccccccaac",
+"abccccccccccaaaaacccccccccccccccacccaaaacccccccccccccaaaacccccccccccccaaaacccccccccccaacccccaaaaccccccccjjjjaaaaaaaaaccccccccccccccc",
+"abccccccccccaaaacccccccccccccccccccaaaaacccccccccccccaaaccccccccccccccaaaaacccccccccaaaaaacccaaccccccccjjjjjjkkaaaacccccccccaacccccc",
+"abcccccaaccccccccccccccccccccccccccaaaaaacccccccccccccaacccccccccccccaaaaaaccccccccccaaaaaccccccccccccjjjjjjjkkkkaacccccaacaaacccccc",
+"abccaaaacccccccccccccccccccccccccccaaaaaaccccccccccccccccccccccccccccaaaacaccccccccaaaaaaaccccaacccccjjjjoooookkkkkkkklllaaaaaaacccc",
+"abccaaaaaacccccccccccccccccccccccccaaaaacccccccccccccccccccccccccccccccaaccccccccccaaaaaaaaccaaaaccccjjjoooooookkkkkkkllllaaaaaacccc",
+"abcccaaaaacccccccccccccccccccccccccccaaaccccccccaaaacccccccccccccccccccccccccccccccaaaaaaaaccaaaaccccjjooooooooppkkppplllllaccaacccc",
+"abccaaaaaccccccccccccaccccccccccccccccccccccccccaaaacccccccccccccccccccccccccccccccccaaacacccaaaacccijjooouuuuoppppppppplllccccccccc",
+"abcccccaacccccccccccaaaaaaaaccccccccccccccccccccaaaaccccaaccccccccaaacccccccccccccaacaaccccccccccccciijoouuuuuuppppppppplllcccaccccc",
+"abcccccccccccccccccccaaaaaaccccccccccccccccccccccaaccccaaaacccccccaaaaccccccccccaaaaaaccccccccccccciiiiootuuuuuupuuuvvpppllccccccccc",
+"abcccccccccccccccccccaaaaaaccaaaaacccccccccccccccccccccaaaacccccccaaaaccccccccccaaaaaaccccccccccccciiinnotuuxxxuuuuvvvpppllccccccccc",
+"abccccccccccccccacccaaaaaaaacaaaaaaacccccccccccccccccccaaaacccccccaaacccccaaaaccaaaaaccccaaccccccciiiinnnttxxxxuuyyyvvqqqllccccccccc",
+"abcccccccccccaaaaccaaaaaaaaaaaaaaaaaaccaacccccccccccccccccccccccccccccccccaaaacccaaaaaccaaacccccciiinnnnnttxxxxxyyyyvvqqqllccccccccc",
+"abaaaacccccccaaaaaaaaaaaaaaaaaaaaaaaaaaaacccccccccccccccccccccccccccccccccaaaacccaaaaaacaaaccccciiinnnnttttxxxxxyyyyvvqqmmmccccccccc",
+"abaaaaccccccccaaaaacccaaaaacaaaaaacaaaaaaccccccccccccccccaaccccccccccccccccaacccccccaaaaaaaaaaciiinnnnttttxxxxxyyyyvvqqqmmmccccccccc",
+"SbaaaacccccccaaaaaccccaaaaaccaaaaaaaaaaaccccccccccccccccaaacaacccccccccccccccccccccccaaaaaaaaachhhnnntttxxxEzzzzyyvvvqqqmmmccccccccc",
+"abaaaacccccccaacaacccccaaaaaaaacaaaaaaaaaccccccccccccccccaaaaaccccccccccccccccccccccccaaaaaaacchhhnnntttxxxxxyyyyyyvvvqqmmmdddcccccc",
+"abaaaacccccccccccccccccccaaaaaacaaaaaaaaaacccccccccccccaaaaaaccccccccaaaccccccccccccccaaaaaaccchhhnnntttxxxxywyyyyyyvvvqqmmmdddccccc",
+"abaacccccccccccccccccccaaaaaaacccccaaaaaaacccccccccccccaaaaaaaacccccaaaacccccccccccccaaaaaaacaahhhmmmttttxxwwyyyyyyyvvvqqmmmdddccccc",
+"abcccccccccccccccccccccaaaaaaacaaccaaacccccccccccccccccaacaaaaacccccaaaacccccccccccccaaacaaaaaahhhmmmmtsssswwyywwwwvvvvqqqmmdddccccc",
+"abcccccccccccccccaaaccccaaaaaaaaaacaaccaaccccccccccccccccaaacaccccccaaaacccccccccccccccccaaaaacahhhmmmmmsssswwywwwwwvvrrqqmmdddccccc",
+"abcccccccccccccaaaaaaccccaaaaaaaaaccaaaacccccccccccccccccaacccccccccccccccccccccccaaaccccaaaaaaahhhhhmmmmssswwwwwrrrrrrrrmmmmddccccc",
+"abcccccccccccccaaaaaaccccaaaaaaaaaaaaaaaaaccccccccccccccccccccccccccccccccccccccaaaaaacccccaaaaachhhhhmmmmsswwwwrrrrrrrrrkkmdddccccc",
+"abccccccccccccccaaaaaccccccaaaaaaaaaaaaaaaccccccccccccccccccccccccccccccccccccccaaaaaaccccaaaaacccchhggmmmssswwrrrrrkkkkkkkkdddacccc",
+"abccaaaacccccccaaaaacccccccccaaaaaacaaaaacccccccccccccccccccccccccccccccccccccccaaaaaaccccaacaaaccccggggmmsssssrrlkkkkkkkkkdddaccccc",
+"abccaaaacccccccaaaaacccccccccaaaaaaccccaacccccccccccccccccccccccccccccccccccccccaaaaaccccccccaaccccccgggmllssssrllkkkkkkkeeeddaccccc",
+"abccaaaacccccccaaacccccccccccaaaaaacccccccccccccccccccaacccccccccccccccccccccccaaaaaacccccccccccccccccggllllssslllkkeeeeeeeeeaaacccc",
+"abcccaaccccccccaaacaaaccccccaaaaaaaaaaacccccccccccccaaaaaacccccccccccccccccccccaaacaaacccccaacccccccccggglllllllllfeeeeeeeeaaaaacccc",
+"abccccccccccaaaaaaaaaaccccccccccccaccaaaccacccccccccaaaaaaccccaaccaacccaaccccccaaaaaaacccccaaccccccccccggglllllllfffeeecccaaaaaacccc",
+"abccccccccccaaaaaaaaacccccccccccccccaaaaaaaccccccccccaaaaaccccaaaaaacccaaaaaaccaaaaaacccaaaaaaaacccccccggggllllfffffccccccaacccccccc",
+"abcccccccccccaaaaaaacccccccccccccccccaaaaaaccaacccccaaaaaccccccaaaaacccaaaaaacaaaaaaacccaaaaaaaaccccccccgggffffffffccccccccccccccccc",
+"abccccccccccccaaaaaaacccccccccccccaaaaaaaaacaaaaccccaaaaacaaaaaaaaaacaaaaaaacaaaaaaaaaccccaaaacccccccccccggffffffacccccccccccccccaaa",
+"abccccccccccccaaaaaaacaaccccccccccaaaaaaaaacaaaacccccaaaaaaaaaaaaaaaaaaaaaaacaaaaaaaaaacccaaaaacccccccccccaffffaaaaccccccccccccccaaa",
+"abccccccccccccaaacaaaaaacccccccccccaaaaaaaacaaaaaaaaaaaaaaaaaaaaaaaaacaaaaaaacccaaacaaaccaaaaaacccccccccccccccccaaaccccccccccccccaaa",
+"abccccccccccccaaccaaaaaccccccccccccccaaaaaaaccccaaaaaaaaaaaaccccaacccccaaaaaacccaaaccccccaaccaacccccccccccccccccaaacccccccccccaaaaaa",
+"abcccccccccccccccaaaaaaaaccccccccccccaacccacccccccaaaaaaaaaaccccaacccccaaccccccccaccccccccccccccccccccccccccccccccccccccccccccaaaaaa",
+]
+input = realInput
 
-Monkeys.append(m0)
-Monkeys.append(m1)
-Monkeys.append(m2)
-Monkeys.append(m3)
-Monkeys.append(m4)
-Monkeys.append(m5)
-Monkeys.append(m6)
-Monkeys.append(m7)
-for i in range(10000):
-    for m in Monkeys:
-        m.throwAllItems()
-for m in Monkeys:
-    print(m.inspectCount)
+print("input: " + str(input))
+start = ""
+end = ""
 
-Monkeys.sort(key=lambda x: x.inspectCount, reverse=True)
 
-sum = 1
-for monkey in Monkeys[0:2]:
-    sum *= monkey.inspectCount
-print(sum)
+def calcnodeid(i,j):
+    return i*10000+j
+
+
+print("initiating graph builder")
+graph = Graph()
+possibleStarts = []
+
+for (i,s) in enumerate(input):
+    for (j,c) in enumerate(s.strip()):
+        if ordOfNode(c) == ord("a"):
+            possibleStarts.append(calcnodeid(i,j))
+
+print("done scaffolding graph builder")
+for (i,s) in enumerate(input):
+    print("row done "+str(i))
+    for (j,c) in enumerate(s.strip()):
+        
+        nodeid = calcnodeid(i,j)
+        # print("--- "+nodeid+" ---")
+        val = c
+        if c == "S":
+            val = "a"
+            start = nodeid
+        elif c == "E":
+            val = "z"
+            end = nodeid
+        val = ordOfNode(c)
+
+        if  j == 0:
+            if ordOfNode(input[i][j+1]) == val+1 or ordOfNode(input[i][j+1]) <= val:
+                # print(nodeid + " > " + calcnodeid(i,j+1) + "|" + str(input[i][j+1]) + " / " + c + " b1 " + str(ordOfNode(input[i][j+1]) == val+1) + " b2 " + str(ordOfNode(input[i][j+1]) <= val))
+                graph.add_edge(nodeid,calcnodeid(i,j+1), 1)
+        elif j == len(s.strip())-1:
+            if ordOfNode(input[i][j-1]) == val+1 or ordOfNode(input[i][j-1]) <= val:
+                # print(nodeid + " < " + calcnodeid(i,j-1) + "|" + str(input[i][j-1]) + " / " + c + " b1 " + str(ordOfNode(input[i][j-1]) == val+1) + " b2 " + str(ordOfNode(input[i][j-1]) <= val))
+                graph.add_edge(nodeid,calcnodeid(i,j-1), 1)
+        elif j > 0 and j < len(s.strip())-1 :
+            if ordOfNode(input[i][j+1]) == val+1 or ordOfNode(input[i][j+1]) <= val:
+                # print(nodeid + " > " + calcnodeid(i,j+1) + "|" + str(input[i][j+1]) + " / " + c + " b1 " + str(ordOfNode(input[i][j+1]) == val+1) + " b2 " + str(ordOfNode(input[i][j+1]) <= val))
+                graph.add_edge(nodeid,calcnodeid(i,j+1), 1)
+            if ordOfNode(input[i][j-1]) == val+1 or ordOfNode(input[i][j-1]) <= val:
+                # print(nodeid + " < " + calcnodeid(i,j-1) + "|" + str(input[i][j-1]) + " / " + c + " b1 " + str(ordOfNode(input[i][j-1]) == val+1) + " b2 " + str(ordOfNode(input[i][j-1]) <= val))
+                graph.add_edge(nodeid,calcnodeid(i,j-1), 1)
+
+        if  i == 0:
+            if ordOfNode(input[i+1][j]) == val+1 or ordOfNode(input[i+1][j]) <= val:
+                # print(nodeid + " 5 v " + calcnodeid(i+1,j) + "|" + str(input[i+1][j]) + " / " + c + " b1 " + str(ordOfNode(input[i+1][j]) == val+1) + " b2 " + str(ordOfNode(input[i+1][j]) <= val))
+                graph.add_edge(nodeid,calcnodeid(i+1,j), 1)
+        elif i == len(input)-1:
+            if ordOfNode(input[i-1][j]) == val+1 or ordOfNode(input[i-1][j]) <= val:
+                # print(nodeid + " 6 ^ " + calcnodeid(i-1,j) + "|" + str(input[i-1][j]) + " / " + c + " b1 " + str(ordOfNode(input[i-1][j]) == val+1) + " b2 " + str(ordOfNode(input[i-1][j]) <= val))
+                graph.add_edge(nodeid,calcnodeid(i-1,j), 1)
+        elif i < len(input)-1 and i > 0:
+            if ordOfNode(input[i+1][j]) == val+1 or ordOfNode(input[i+1][j]) <= val:
+                # print(nodeid + " 7 v " + calcnodeid(i+1,j) + "|" + str(input[i+1][j]) + " / " + c + " b1 " + str(ordOfNode(input[i+1][j]) == val+1) + " b2 " + str(ordOfNode(input[i+1][j])) + str(val))
+                graph.add_edge(nodeid,calcnodeid(i+1,j), 1)
+            if ordOfNode(input[i-1][j]) == val+1 or ordOfNode(input[i-1][j]) <= val:
+                # print(nodeid + " 8 ^ " + calcnodeid(i-1,j) + "|" + str(input[i-1][j]) + " / " + c + " b1 " + str(ordOfNode(input[i-1][j]) == val+1) + " b2 " + str(ordOfNode(input[i-1][j]) <= val))
+                graph.add_edge(nodeid,calcnodeid(i-1,j), 1)
+
+print("Start is ", start)
+print("End is ", end)
+
+minLen = 99999999999999
+for st in possibleStarts:
+    try:
+        p = find_path(graph, st, end)
+        print("node: ", st, " len: ",p.total_cost)
+        min(p.total_cost, minLen)
+    except NoPathError:
+        print("node: ", st, " no path.")
+
+
+print("---")
+print(minLen) 
