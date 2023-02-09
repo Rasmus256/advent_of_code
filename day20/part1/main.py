@@ -1,34 +1,35 @@
-import time
+import networkx as nx
+import random
 
-import stomp
+def getAncestors(graph, node):
+    getChildren(graph, node, [])
+def getChildren(graph, node, succ):
+    for g in G.successors(node):
+        if not g in succ:
+            succ.append(g)
+            getChildren(graph, g, succ)
+    return succ    
 
-topic = "adventofcode.day20.part1"
-EOMRev = False
+def getDecendants(graph, node):
+    getParents(graph, node, [])
+def getParents(graph, node, succ):
+    for g in G.predecessors(node):
+        if not g in succ:
+            succ.append(g)
+            getParents(graph, g, succ)
+    return succ    
 
-class MyListener(stomp.ConnectionListener):
-    def on_error(self, headers, message):
-        print('received an error "%s"' % message)
-    def on_message(self, message):
-        if message.body == "EOM":
-            global EOMRev
-            EOMRev = True
-        else:
-            print(f"{message.body}")
+G=nx.DiGraph()
+G.add_nodes_from([1])
+int = 500
+for i in range(int):
+    G.add_node(i+1)
+for i in range(int):
+    G.add_edge(random.randint(0, int), random.randint(0, int))
+    
+decendants = getDecendants(G, 5)
+ancestors = getAncestors(G, 5)
 
-hosts = [('amq.default.svc.cluster.local', 61613)]
+print(f"5 has these ancestors: {ancestors} and these decendents: {decendants}")
 
-conn = stomp.Connection(host_and_ports=hosts)
-conn.set_listener('', MyListener()) 
-conn.connect('admin', 'admin', wait=True,headers = {'client-id': topic} )
-conn.subscribe(destination=topic, id=131, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
-file1 = open('puzzle_input.csv', 'r')
-
-Lines = file1.readlines()
-for line in Lines:
-    line = line.strip()
-    conn.send(body=f"{line}" , destination=topic)
-conn.send(body="EOM", destination=topic)
-while not EOMRev:
-    print("Wating for EOM")
-    time.sleep(1)
-conn.disconnect()
+print(nx.to_dict_of_dicts(G))
