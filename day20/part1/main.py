@@ -26,12 +26,12 @@ G=nx.DiGraph()
 G.add_nodes_from([1])
 int = 10
 for i in range(int):
-    G.add_node(i+1)
+    G.add_node(str(i+1))
 for i in range(int):
-    G.add_edge(i, i+1)
+    G.add_edge(str(i), str(i+1))
     
-decendants = getDecendants(G, 5)
-ancestors = getAncestors(G, 5)
+decendants = getDecendants(G, "5")
+ancestors = getAncestors(G, "5")
 
 print(f"5 has these ancestors: {ancestors} and these decendents: {decendants}")
 
