@@ -7,7 +7,7 @@ def getChildren(graph, node, succ):
     for g in G.successors(node):
         if not g in succ:
             succ.append(g)
-            succ.append(getChildren(graph, g, succ))
+            getChildren(graph, g, succ)
     return succ    
 
 def getDecendants(graph, node):
@@ -16,7 +16,7 @@ def getParents(graph, node, succ):
     for g in G.predecessors(node):
         if not g in succ:
             succ.append(g)
-            succ.append(getParents(graph, g, succ))
+            getParents(graph, g, succ)
     return succ    
 
 G=nx.DiGraph()
