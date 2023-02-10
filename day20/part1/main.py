@@ -21,6 +21,16 @@ def getParents(graph, node, succ):
             succ.append(g)
             getParents(graph, g, succ)
     return succ    
+def getRelated(graph, node):
+    return getFamily(graph, node, [])
+def getFamily(graph, node, succ):
+    toVisit = G.predecessors(node)
+    toVisit.extend( G.successors(node))
+    for g in toVisit:
+        if not g in succ:
+            succ.append(g)
+            getFamily(graph, g, succ)
+    return succ    
 
 G=nx.DiGraph()
 G.add_nodes_from([1])
@@ -2543,7 +2553,12 @@ G.add_edge(904,14)
     
 decendants = getDecendants(G, 148)
 ancestors = getAncestors(G, 148)
+related = getRelated(G, 148)
 
 print(f"5 has these ancestors: {ancestors} and these decendents: {decendants}")
+related = getRelated(G, 148)
+print(f"5 has related: {related}")
+
+
 
 print(nx.to_dict_of_dicts(G))
