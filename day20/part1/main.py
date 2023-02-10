@@ -2,7 +2,7 @@ import networkx as nx
 import random
 
 def getDecendants(graph, node):
-    getChildren(graph, node, [])
+    return getChildren(graph, node, [])
 def getChildren(graph, node, succ):
     for g in G.successors(node):
         print(f"viting {g}" )
@@ -12,7 +12,7 @@ def getChildren(graph, node, succ):
     return succ    
 
 def getAncestors(graph, node):
-    getParents(graph, node, [])
+    return getParents(graph, node, [])
 def getParents(graph, node, succ):
     for g in G.predecessors(node):
         print(f"viting {g}" )
