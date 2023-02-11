@@ -2561,8 +2561,8 @@ def getFamily(graph, node, succ):
 
 G=nx.DiGraph()
 G.add_nodes_from([1])
-int = 1048
-for i in range(int):
+numNodes = 1048
+for i in range(numNodes):
     G.add_node(str(i+1))
 G.add_edge(2,38)
 G.add_edge(2,45)
