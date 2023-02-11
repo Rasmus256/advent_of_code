@@ -24,8 +24,11 @@ def getParents(graph, node, succ):
 def getRelated(graph, node):
     return getFamily(graph, node, [])
 def getFamily(graph, node, succ):
-    toVisit = G.predecessors(node)
-    toVisit = toVisit + G.successors(node)
+    toVisit = []
+    for g in G.predecessors(node):
+        toVisit.append(g)
+    for g in G.successors(node):
+        toVisit.append(g)
     for g in toVisit:
         if not g in succ:
             succ.append(g)
