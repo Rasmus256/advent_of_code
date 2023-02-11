@@ -2530,7 +2530,7 @@ def getRelevantEdges(nodes):
     filtered = []
     for edge in edges:
         parts = edge.split(" --> ")
-        if parts[0] in nodes or parts[1] in nodes:
+        if int(parts[0]) in nodes or int(parts[1]) in nodes:
             filtered.append(edge)
     return filtered
     
