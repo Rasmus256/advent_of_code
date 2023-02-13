@@ -49,11 +49,11 @@ def handleSingleNode(startNode):
     related = getRelated(G, startNode)
 
     print(f"{startNode} has these ancestors: {ancestors}")
-    print(f"these edges are involved with ancestors: {getRelevantEdges(ancestors, edges)}")
+    print(f"these edges are involved with ancestors: {getRelevantEdges(ancestors + [startNode], edges)}")
     print(f"{startNode} has these decendents: {decendants}")
-    print(f"these edges are involved with decendents: {getRelevantEdges(decendants, edges)}")
+    print(f"these edges are involved with decendents: {getRelevantEdges(decendants + [startNode], edges)}")
     print(f"{startNode} has related: {related}")
-    print(f"these edges are involved with related: {getRelevantEdges(related, edges)}")
+    print(f"these edges are involved with related: {getRelevantEdges(related + [startNode], edges)}")
     print(f"--- end {startNode} ---")    
     
 for startNode in startNodes.split(","):
