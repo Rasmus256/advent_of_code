@@ -11,7 +11,7 @@ def getDecendants(graph, node, succ = []):
     return succ
 
 def getRelevantEdges(nodes, edges):
-    return list((f"{x[0]} -- > {x[1]}" for x in edges if x[0] in nodes or x[1] in nodes))
+    return list((f"{x[0]} -> {x[1]}" for x in edges if x[0] in nodes or x[1] in nodes))
 
 def getAncestors(graph, node, succ = []):
     for g in G.predecessors(node):
