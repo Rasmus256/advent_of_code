@@ -12,7 +12,7 @@ def getDecendants(graph, node, succ = []):
 
 def getRelevantEdges(nodes):
     global edges
-    return list((f"{x[0]} -- > {x[1]}" for x in edges if x[0] not in nodes and x[1] not in nodes))
+    return list((f"{x[0]} -- > {x[1]}" for x in edges if x[0] in nodes or x[1] in nodes))
 
 def getAncestors(graph, node, succ = []):
     for g in G.predecessors(node):
