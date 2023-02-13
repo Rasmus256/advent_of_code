@@ -1,6 +1,6 @@
 import networkx as nx
 import random
-import sys
+import os
 
 def getDecendants(graph, node):
     return getChildren(graph, node, [])
@@ -2561,8 +2561,8 @@ def getFamily(graph, node, succ):
     return succ    
 
 G=nx.DiGraph()
-numNodes = int(sys.argv[1])
-startNode = int(sys.argv[2])
+numNodes = int(os.getenv("NUM_NODES"))
+startNode = int(os.getenv("START_NODE"))
 for i in range(numNodes):
     G.add_node(str(i+1))
 G.add_edge(2,38)
