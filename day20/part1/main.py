@@ -10,8 +10,7 @@ def getDecendants(graph, node, succ = []):
             getDecendants(graph, g, succ)
     return succ
 
-def getRelevantEdges(nodes):
-    global edges
+def getRelevantEdges(nodes, edges):
     return list((f"{x[0]} -- > {x[1]}" for x in edges if x[0] in nodes or x[1] in nodes))
 
 def getAncestors(graph, node, succ = []):
@@ -50,4 +49,4 @@ related = getRelated(G, startNode)
 print(f"5 has these ancestors: {ancestors}")
 print(f"5 has these decendents: {decendants}")
 print(f"5 has related: {related}")
-print(f"these edges are involved: {getRelevantEdges(related)}")
+print(f"these edges are involved: {getRelevantEdges(related, edges)}")
