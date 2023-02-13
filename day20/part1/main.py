@@ -44,9 +44,9 @@ for line in Lines:
     
 for node in startNode.split(','):
     print(f"--- begin {node} ---")    
-    decendants = getDecendants(G, startNode)
-    ancestors = getAncestors(G, startNode)
-    related = getRelated(G, startNode)
+    decendants = getDecendants(G, node)
+    ancestors = getAncestors(G, node)
+    related = getRelated(G, node)
 
     print(f"5 has these ancestors: {ancestors}")
     print(f"these edges are involved with ancestors: {getRelevantEdges(ancestors, edges)}")
