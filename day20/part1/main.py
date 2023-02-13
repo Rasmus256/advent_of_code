@@ -47,7 +47,7 @@ def getFamily(graph, node, succ):
 
 G=nx.DiGraph()
 numNodes = int(os.getenv("NUM_NODES"))
-startNode = int(os.getenv("START_NODE"))
+startNode = os.getenv("START_NODE")
 print(f"STARTED with parameters NUM_NODES: {numNodes}, START_NODE: {startNode}")
 for i in range(numNodes):
     G.add_node(str(i+1))
