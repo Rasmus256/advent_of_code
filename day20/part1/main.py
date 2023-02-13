@@ -56,4 +56,5 @@ def handleSingleNode(startNode):
     print(f"these edges are involved with related: {getRelevantEdges(related, edges)}")
     print(f"--- end {startNode} ---")    
     
-map(handleSingleNode, startNodes.split(','))
+for startNode in startNodes.split():
+    handleSingleNode(startNode)
