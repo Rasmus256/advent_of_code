@@ -30,8 +30,8 @@ def getRelated(graph, node, succ = []):
 
 G=nx.DiGraph()
 numNodes = int(os.getenv("NUM_NODES"))
-startNode = os.getenv("START_NODE")
-print(f"STARTED with parameters NUM_NODES: {numNodes}, START_NODE: {startNode}")
+startNodes = os.getenv("START_NODE")
+print(f"STARTED with parameters NUM_NODES: {numNodes}, START_NODE: {startNodes}")
 G.add_nodes_from(map(lambda x: str(x), range(numNodes)))
     
 file1 = open('edges.csv', 'r')
@@ -42,16 +42,16 @@ for line in Lines:
     edges.append(fromAndTo)
     G.add_edge(fromAndTo[0],fromAndTo[1])
     
-for node in startNode.split(','):
-    print(f"--- begin {node} ---")    
-    decendants = getDecendants(G, node)
-    ancestors = getAncestors(G, node)
-    related = getRelated(G, node)
+for startNode in startNodes.split(','):
+    print(f"--- begin {startNode} ---")    
+    decendants = getDecendants(G, startNode)
+    ancestors = getAncestors(G, startNode)
+    related = getRelated(G, startNode)
 
-    print(f"{node} has these ancestors: {ancestors}")
+    print(f"{startNode} has these ancestors: {ancestors}")
     print(f"these edges are involved with ancestors: {getRelevantEdges(ancestors, edges)}")
-    print(f"{node} has these decendents: {decendants}")
+    print(f"{startNode} has these decendents: {decendants}")
     print(f"these edges are involved with decendents: {getRelevantEdges(decendants, edges)}")
-    print(f"{node} has related: {related}")
+    print(f"{startNode} has related: {related}")
     print(f"these edges are involved with related: {getRelevantEdges(related, edges)}")
-    print(f"--- end {node} ---")    
+    print(f"--- end {startNode} ---")    
