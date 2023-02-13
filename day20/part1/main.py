@@ -1,5 +1,6 @@
 import networkx as nx
 import random
+import sys
 
 def getDecendants(graph, node):
     return getChildren(graph, node, [])
@@ -2560,8 +2561,8 @@ def getFamily(graph, node, succ):
     return succ    
 
 G=nx.DiGraph()
-G.add_nodes_from([1])
-numNodes = 1048
+numNodes = int(sys.argv[1])
+startNode = int(sys.argv[2])
 for i in range(numNodes):
     G.add_node(str(i+1))
 G.add_edge(2,38)
@@ -5078,12 +5079,12 @@ G.add_edge(902,220)
 G.add_edge(902,569)
 G.add_edge(904,14)
     
-decendants = getDecendants(G, 148)
-ancestors = getAncestors(G, 148)
-related = getRelated(G, 148)
+decendants = getDecendants(G, startNode)
+ancestors = getAncestors(G, startNode)
+related = getRelated(G, startNode)
 
 print(f"5 has these ancestors: {ancestors} and these decendents: {decendants}")
-related = getRelated(G, 148)
+related = getRelated(G, startNode)
 print(f"5 has related: {related}")
 
 print(f"these adges are involved: {getRelevantEdges(related)}")
