@@ -48,10 +48,10 @@ for node in startNode.split(','):
     ancestors = getAncestors(G, node)
     related = getRelated(G, node)
 
-    print(f"5 has these ancestors: {ancestors}")
+    print(f"{node} has these ancestors: {ancestors}")
     print(f"these edges are involved with ancestors: {getRelevantEdges(ancestors, edges)}")
-    print(f"5 has these decendents: {decendants}")
+    print(f"{node} has these decendents: {decendants}")
     print(f"these edges are involved with decendents: {getRelevantEdges(decendants, edges)}")
-    print(f"5 has related: {related}")
+    print(f"{node} has related: {related}")
     print(f"these edges are involved with related: {getRelevantEdges(related, edges)}")
     print(f"--- end {node} ---")    
