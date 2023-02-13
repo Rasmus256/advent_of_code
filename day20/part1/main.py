@@ -25,9 +25,7 @@ def getAncestors(graph, node):
     return getParents(graph, node, [])
 def getParents(graph, node, succ):
     for g in G.predecessors(node):
-        print(f"viting {g}" )
         if not g in succ:
-            print(f"{g} is visited for the first time!" )
             succ.append(g)
             getParents(graph, g, succ)
     return succ    
