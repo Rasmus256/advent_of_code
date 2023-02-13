@@ -7,7 +7,6 @@ def getDecendants(graph, node):
     return getChildren(graph, node, [])
 def getChildren(graph, node, succ):
     for g in G.successors(node):
-        print(f"viting {g}" )
         if not g in succ:
             succ.append(g)
             getChildren(graph, g, succ)
@@ -17,7 +16,7 @@ def getRelevantEdges(nodes):
     global edges
     filtered = []
     for edge in edges:
-        if int(edge[0]) in nodes or int(edge[1]) in nodes:
+        if edge[0] in nodes or edge[1] in nodes:
             filtered.append(f"{edge[0]} --> {edge[1]}")
     return filtered
 
@@ -61,4 +60,4 @@ related = getRelated(G, startNode)
 print(f"5 has these ancestors: {ancestors}")
 print(f"5 has these decendents: {decendants}")
 print(f"5 has related: {related}")
-print(f"these adges are involved: {getRelevantEdges(related)}")
+print(f"these edges are involved: {getRelevantEdges(related)}")
