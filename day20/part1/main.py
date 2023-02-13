@@ -3,40 +3,31 @@ import os
 
 edges = []
 
-def getDecendants(graph, node):
-    return getChildren(graph, node, [])
-def getChildren(graph, node, succ):
+def getDecendants(graph, node, succ = []):
     for g in G.successors(node):
         if not g in succ:
             succ.append(g)
-            getChildren(graph, g, succ)
+            getDecendants(graph, g, succ)
     return succ
 
 def getRelevantEdges(nodes):
     global edges
-    filtered = []
-    for edge in edges:
-        if edge[0] in nodes or edge[1] in nodes:
-            filtered.append(f"{edge[0]} --> {edge[1]}")
+    filtered = (f"{x[0]} -- > {x[1]}" for x in edges if x[0] not in nodes and x[1] not in nodes)
     return filtered
 
-def getAncestors(graph, node):
-    return getParents(graph, node, [])
-def getParents(graph, node, succ):
+def getAncestors(graph, node, succ = []):
     for g in G.predecessors(node):
         if not g in succ:
             succ.append(g)
-            getParents(graph, g, succ)
+            getAncestors(graph, g, succ)
     return succ
 
-def getRelated(graph, node):
-    return getFamily(graph, node, [])
-def getFamily(graph, node, succ):
+def getRelated(graph, node, succ = []):
     toVisit = list(G.predecessors(node)) + list(G.successors(node))
     for g in toVisit:
         if not g in succ:
             succ.append(g)
-            getFamily(graph, g, succ)
+            getRelated(graph, g, succ)
     return succ
 
 G=nx.DiGraph()
