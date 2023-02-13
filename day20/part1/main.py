@@ -2564,9 +2564,18 @@ G=nx.DiGraph()
 numNodes = int(os.getenv("NUM_NODES"))
 startNode = int(os.getenv("START_NODE"))
 print(f"STARTED with parameters NUM_NODES: {numNodes}, START_NODE: {startNode}")
-
 for i in range(numNodes):
     G.add_node(str(i+1))
+    
+file1 = open('edges.csv', 'r')
+
+Lines = file1.readlines()
+for line in Lines:
+    fromAndTo = line.strip().split(",")
+    print(f"{fromAndTo}");
+    G.add_edge(fromAndTo[0],fromAndTo[1])
+
+
 G.add_edge(2,38)
 G.add_edge(2,45)
 G.add_edge(2,110)
