@@ -57,7 +57,6 @@ file1 = open('edges.csv', 'r')
 Lines = file1.readlines()
 for line in Lines:
     fromAndTo = line.strip().split(",")
-    print(f"{fromAndTo}");
     edges.append(fromAndTo)
     G.add_edge(fromAndTo[0],fromAndTo[1])
     
