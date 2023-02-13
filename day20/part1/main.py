@@ -11,7 +11,7 @@ def getDecendants(graph, node, succ = []):
     return succ
 
 def getRelevantEdges(nodes, edges):
-    return list((f"{x[0]} -> {x[1]}" for x in edges if x[0] in nodes or x[1] in nodes))
+    return list((f"{x[0]} -> {x[1]}" for x in edges if x[0] in nodes and x[1] in nodes))
 
 def getAncestors(graph, node, succ = []):
     for g in G.predecessors(node):
@@ -42,7 +42,7 @@ for line in Lines:
     edges.append(fromAndTo)
     G.add_edge(fromAndTo[0],fromAndTo[1])
     
-for startNode in startNodes.split(','):
+def handleSingleNode(startNode):
     print(f"--- begin {startNode} ---")    
     decendants = getDecendants(G, startNode)
     ancestors = getAncestors(G, startNode)
@@ -55,3 +55,5 @@ for startNode in startNodes.split(','):
     print(f"{startNode} has related: {related}")
     print(f"these edges are involved with related: {getRelevantEdges(related, edges)}")
     print(f"--- end {startNode} ---")    
+    
+map(handleSingleNode, startNodes.split(','))
