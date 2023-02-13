@@ -33,11 +33,7 @@ def getParents(graph, node, succ):
 def getRelated(graph, node):
     return getFamily(graph, node, [])
 def getFamily(graph, node, succ):
-    toVisit = []
-    for g in G.predecessors(node):
-        toVisit.append(g)
-    for g in G.successors(node):
-        toVisit.append(g)
+    toVisit = G.predecessors(node) + G.successors(node):
     for g in toVisit:
         if not g in succ:
             succ.append(g)
@@ -48,8 +44,7 @@ G=nx.DiGraph()
 numNodes = int(os.getenv("NUM_NODES"))
 startNode = os.getenv("START_NODE")
 print(f"STARTED with parameters NUM_NODES: {numNodes}, START_NODE: {startNode}")
-for i in range(numNodes):
-    G.add_node(str(i))
+G.add_nodes_from(map(lambda x: str(x), range(numNodes)))
     
 file1 = open('edges.csv', 'r')
 
