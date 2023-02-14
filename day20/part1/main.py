@@ -1,60 +1,34 @@
-import networkx as nx
-import os
+import time
 
-edges = []
+import stomp
 
-def getDecendants(graph, node, succ = []):
-    for g in G.successors(node):
-        if not g in succ:
-            succ.append(g)
-            getDecendants(graph, g, succ)
-    return succ
+topic = "adventofcode.day20.part1"
+EOMRev = False
 
-def getRelevantEdges(nodes, edges):
-    return list((f"{x[0]} -> {x[1]}" for x in edges if x[0] in nodes and x[1] in nodes))
+class MyListener(stomp.ConnectionListener):
+    def on_error(self, headers, message):
+        print('received an error "%s"' % message)
+    def on_message(self, message):
+        if message.body == "EOM":
+            global EOMRev
+            EOMRev = True
+        else:
+            print(f"{message.body}")
 
-def getAncestors(graph, node, succ = []):
-    for g in G.predecessors(node):
-        if not g in succ:
-            succ.append(g)
-            getAncestors(graph, g, succ)
-    return succ
+hosts = [('amq.default.svc.cluster.local', 61613)]
 
-def getRelated(graph, node, succ = []):
-    toVisit = list(G.predecessors(node)) + list(G.successors(node))
-    for g in toVisit:
-        if not g in succ:
-            succ.append(g)
-            getRelated(graph, g, succ)
-    return succ
-
-G=nx.DiGraph()
-numNodes = int(os.getenv("NUM_NODES"))
-startNodes = os.getenv("START_NODE")
-print(f"STARTED with parameters NUM_NODES: {numNodes}, START_NODE: {startNodes}")
-G.add_nodes_from(map(lambda x: str(x), range(numNodes)))
-    
-file1 = open('edges.csv', 'r')
+conn = stomp.Connection(host_and_ports=hosts)
+conn.set_listener('', MyListener()) 
+conn.connect('admin', 'admin', wait=True,headers = {'client-id': topic} )
+conn.subscribe(destination=topic, id=131, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
+file1 = open('puzzle_input.csv', 'r')
 
 Lines = file1.readlines()
 for line in Lines:
-    fromAndTo = line.strip().split(",")
-    edges.append(fromAndTo)
-    G.add_edge(fromAndTo[0],fromAndTo[1])
-    
-def handleSingleNode(startNode):
-    print(f"--- begin {startNode} ---")    
-    decendants = getDecendants(G, startNode)
-    ancestors = getAncestors(G, startNode)
-    related = getRelated(G, startNode)
-
-    print(f"{startNode} has these ancestors: {ancestors}")
-    print(f"these edges are involved with ancestors: {getRelevantEdges(ancestors + [startNode], edges)}")
-    print(f"{startNode} has these decendents: {decendants}")
-    print(f"these edges are involved with decendents: {getRelevantEdges(decendants + [startNode], edges)}")
-    print(f"{startNode} has related: {related}")
-    print(f"these edges are involved with related: {getRelevantEdges(related + [startNode], edges)}")
-    print(f"--- end {startNode} ---")    
-    
-for startNode in startNodes.split(","):
-    handleSingleNode(startNode)
+    line = line.strip()
+    conn.send(body=f"{line}" , destination=topic)
+conn.send(body="EOM", destination=topic)
+while not EOMRev:
+    print("Wating for EOM")
+    time.sleep(1)
+conn.disconnect()

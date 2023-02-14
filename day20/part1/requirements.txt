@@ -1,1 +1,2 @@
-networkx
+Dijkstar==2.6.0
+stomp.py==8.1.0
