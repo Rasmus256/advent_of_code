@@ -84,11 +84,11 @@ Lines = file1.readlines()
 msg = {}
 idx = 0
 for line in Lines:
-    idx = idx+1
     line = line.strip()
     if line == "":
         r = line.strip()
-        msg['index'] = idx+1
+        idx = idx+1
+        msg['index'] = idx
         # print(json.dumps(msg))
         conn.send(body=json.dumps(msg) , destination=topic)
         msg = {}
