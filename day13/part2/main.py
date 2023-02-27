@@ -5,7 +5,6 @@ import json
 
 topic = "adventofcode.day13.part2"
 EOMRev = False
-Result = 0
 
 def in_right_order(left, right):
     # print(f"starting processing {left} {type(left)}, {right} {type(right)}")
@@ -58,11 +57,14 @@ class MyListener(stomp.ConnectionListener):
         print('received an error "%s"' % message)
     def on_message(self, message):
         print("-----------  --------   ------------   ----------")
-        global Result
         if message.body == "EOM":
             global EOMRev
             EOMRev = True
-            print(f"res: {Result}")
+            global packets
+            idx = []
+            for i, p in enumerate(packets):
+                if p == [[2]] or p == [[6]]:
+                    print(f"Hit {p} at {i+1}")
         else:
             Message = json.loads(message.body)
             left =  Message["left"]
@@ -78,7 +80,7 @@ class MyListener(stomp.ConnectionListener):
                     for p in packets[idx:]:
                         tmp.append(p)
                     packets = tmp
-                    print(f"{message.body} is in right order against {right}! {Result} {Message['index']}" )
+                    print(f"{message.body} is in right order against {right}!  {Message['index']}" )
 
                     inserted=True
                     break
