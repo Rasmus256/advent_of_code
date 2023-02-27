@@ -72,12 +72,12 @@ class MyListener(stomp.ConnectionListener):
                 if in_right_order(left, right):
                     print(f"inserting {left} between {packets[:idx]} and {packets[idx:]}")
                     packets = packets[:idx] + left + packets[idx:]
-                    print(f"{message.body} is in right order! {Result} {Message['index']}" )
+                    print(f"{message.body} is in right order against {right}! {Result} {Message['index']}" )
 
                     inserted=True
                     break
                 else:
-                    print(f"{message.body} is not in right order! Try the next index!" )
+                    print(f"{message.body} is not in right order against {right}! Try the next index!" )
             if not inserted:
                 packets.append(left)
             print(f"{packets}")
