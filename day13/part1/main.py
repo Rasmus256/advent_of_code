@@ -60,7 +60,7 @@ class MyListener(stomp.ConnectionListener):
             global EOMRev
             EOMRev = True
         else:
-            Message = json.load(message.body)
+            Message = json.loads(message.body)
             print(Message)
             left =  Message["left"]
             right = Message["right"]
