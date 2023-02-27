@@ -81,9 +81,9 @@ Lines = file1.readlines()
 Msg = {}
 for line in Lines:
     line = line.strip()
-    Msg.left = line
+    Msg['left'] = line
     if line.strip() == "":
-        Msg.right = line
+        Msg['right'] = line
         conn.send(body=json.dump(Msg) , destination=topic)
         Msg = {}
 conn.send(body="EOM", destination=topic)
