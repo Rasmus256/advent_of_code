@@ -9,10 +9,27 @@ EOMRev = False
 def in_right_order(left, right):
     if type(left) is int and type(right) is int:
         return left < right
-    if type(left) is int:
+    elif type(left) is int:
         return in_right_order([left], right)
-    if type(right) is int:
+    elif type(right) is int:
         return in_right_order(left, [right])
+    elif left is list and right is list:
+        if len(left) == 0 and len(right) > 0:
+            return True
+        elif len(left) > 0 and len(right) > 0:
+            in_order = in_right_order(left[0], right[0])
+            if type(in_order) is None:
+                return in_right_order(left[1:], right[1:])
+            elif in_order:
+                return True
+            else:
+                return False
+        elif len(left) > 0 and len(right) == 0:
+            return False
+        elif len(left) == 0 and len(right) == 0:
+            return None
+    else:
+        raise
 
 class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
