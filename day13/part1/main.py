@@ -36,7 +36,7 @@ for line in Lines:
     line = line.strip()
     Msg.append(line)
     if line.strip() == "":
-        conn.send(body=f"{"\n".join(Msg)}" , destination=topic)
+        conn.send(body=f"{'\n'.join(Msg)}" , destination=topic)
         Msg = []
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
