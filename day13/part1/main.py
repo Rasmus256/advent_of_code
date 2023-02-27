@@ -79,15 +79,18 @@ conn.subscribe(destination=topic, id=131, ack='auto',headers = {'subscription-ty
 file1 = open('puzzle_input.csv', 'r')
 
 Lines = file1.readlines()
-Msg = {}
+msg = {}
 for line in Lines:
     line = line.strip()
-    Msg['left'] = line
-    if line.strip() == "":
-        Msg['right'] = line
-        print(json.dumps(Msg))
-        conn.send(body=json.dumps(Msg) , destination=topic)
-        Msg = {}
+    if line == "":
+        r = line.strip()
+        print(json.dumps(msg))
+        conn.send(body=json.dumps(msg) , destination=topic)
+        msg = {}
+    elif msg['left'] == None:
+        msg['left'] = line
+    else: 
+        msg['right'] = line
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
     print("Wating for EOM")
