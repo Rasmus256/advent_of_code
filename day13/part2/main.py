@@ -73,13 +73,14 @@ class MyListener(stomp.ConnectionListener):
                     print(f"inserting {left} between {packets[:idx]} and {packets[idx:]}")
                     packets = packets[:idx] + left + packets[idx:]
                     print(f"{message.body} is in right order! {Result} {Message['index']}" )
-                    print(f"{packets}")
+
                     inserted=True
                     break
                 else:
                     print(f"{message.body} is not in right order! Try the next index!" )
             if not inserted:
                 packets.append(left)
+            print(f"{packets}")
 
 hosts = [('amq.default.svc.cluster.local', 61613)]
 
