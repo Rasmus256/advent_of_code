@@ -60,6 +60,7 @@ class MyListener(stomp.ConnectionListener):
             global EOMRev
             EOMRev = True
         else:
+            print(message.body)
             Message = json.loads(message.body)
             print(Message)
             left =  Message["left"]
@@ -84,6 +85,7 @@ for line in Lines:
     Msg['left'] = line
     if line.strip() == "":
         Msg['right'] = line
+        print(json.dumps(Msg))
         conn.send(body=json.dumps(Msg) , destination=topic)
         Msg = {}
 conn.send(body="EOM", destination=topic)
