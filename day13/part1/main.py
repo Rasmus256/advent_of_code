@@ -13,7 +13,6 @@ def in_right_order(left, right):
         return in_right_order([left], right)
     if type(right) is int:
         return in_right_order(left, [right])
-    if left        
 
 class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
