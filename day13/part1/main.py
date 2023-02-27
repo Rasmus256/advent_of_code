@@ -88,9 +88,9 @@ for line in Lines:
         conn.send(body=json.dumps(msg) , destination=topic)
         msg = {}
     elif not 'left' in msg:
-        msg['left'] = line
+        msg['left'] = json.loads(line)
     else: 
-        msg['right'] = line
+        msg['right'] = json.loads(line)
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
     print("Wating for EOM")
