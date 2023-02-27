@@ -9,6 +9,15 @@ EOMRev = False
 def in_right_order(left, right):
     print(f"starting processing {left} {type(left)}, {right} {type(right)}")
     if type(left) is int and type(right) is int:
+        if left == right:
+            print("Left equal to right! No determination")
+            return None
+        elif left < right:
+            print("Left less than right! In order")
+            return True
+        else:
+            print("Right less than left! Not in order")
+            return False
         print("Left less than right! In order")
         return left < right
     elif type(left) is int:
