@@ -29,6 +29,7 @@ def in_right_order(left, right):
         elif len(left) == 0 and len(right) == 0:
             return None
     else:
+        print(f"failed to process {left} {type(left)}, {right} {type(right)}")
         raise
 
 class MyListener(stomp.ConnectionListener):
