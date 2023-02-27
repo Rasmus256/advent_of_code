@@ -67,10 +67,10 @@ class MyListener(stomp.ConnectionListener):
             left =  Message["left"]
             right = Message["right"]
             if in_right_order(left, right):
-                print(f"{message.Body} is in right order! {Result} {Message['index']}" )
+                print(f"{message.body} is in right order! {Result} {Message['index']}" )
                 Result = Result + Message['index']
             else:
-                print(f"{message.Body} is not in right order!" )
+                print(f"{message.body} is not in right order!" )
 
 hosts = [('amq.default.svc.cluster.local', 61613)]
 
