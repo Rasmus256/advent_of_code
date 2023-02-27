@@ -65,7 +65,7 @@ class MyListener(stomp.ConnectionListener):
         else:
             Message = json.loads(message.body)
             left =  Message["left"]
-            right = Message["right"
+            right = Message["right"]
             if in_right_order(left, right):
                 Result = Result + Message['index']
 hosts = [('amq.default.svc.cluster.local', 61613)]
