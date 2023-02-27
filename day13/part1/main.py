@@ -7,26 +7,37 @@ topic = "adventofcode.day13.part1"
 EOMRev = False
 
 def in_right_order(left, right):
+    print(f"starting processing {left} {type(left)}, {right} {type(right)}")
     if type(left) is int and type(right) is int:
+        print("Left less than right! In order")
         return left < right
     elif type(left) is int:
+        print("Left is int, but not right. Wrapping left.")
         return in_right_order([left], right)
     elif type(right) is int:
+        print("Right is int, but not right. Wrapping right.")
         return in_right_order(left, [right])
     elif left is list and right is list:
+        print("left and right are lists.")
         if len(left) == 0 and len(right) > 0:
+            print("Left side ran out first! In order")
             return True
         elif len(left) > 0 and len(right) > 0:
             in_order = in_right_order(left[0], right[0])
             if type(in_order) is None:
+                print("No determination - trying next")
                 return in_right_order(left[1:], right[1:])
             elif in_order:
+                print("Comparison bubbling up - True!")
                 return True
             else:
+                print("Comparison bubbling up - False!")
                 return False
         elif len(left) > 0 and len(right) == 0:
+            print("Right side ran out first! Not in order")
             return False
         elif len(left) == 0 and len(right) == 0:
+            print("Unable to determine order, as both sides were empty!")
             return None
     else:
         print(f"failed to process {left} {type(left)}, {right} {type(right)}")
