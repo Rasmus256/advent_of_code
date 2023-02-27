@@ -60,11 +60,11 @@ class MyListener(stomp.ConnectionListener):
             global EOMRev
             EOMRev = True
         else:
-            left =  message.body.split("\n")[0]
-            right = message.body.split("\n")[1]
+            Message = json.load(message.body)
+            print(Message)
+            left =  Message["left"]
+            right = Message["right"]
 
-            left = json.loads(left)
-            right = json.loads(right)
             print(f"l: {left}")
             print(f"r: {right}")
             print(f"order: {in_right_order(left, right)}")
@@ -78,14 +78,14 @@ conn.subscribe(destination=topic, id=131, ack='auto',headers = {'subscription-ty
 file1 = open('puzzle_input.csv', 'r')
 
 Lines = file1.readlines()
-Msg = []
+Msg = {}
 for line in Lines:
     line = line.strip()
-    Msg.append(line)
+    Msg.left = line
     if line.strip() == "":
-        Msg = '\n'.join(Msg)
-        conn.send(body=f"{Msg}" , destination=topic)
-        Msg = []
+        Msg.right = line
+        conn.send(body=json.dump(Msg) , destination=topic)
+        Msg = {}
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
     print("Wating for EOM")
