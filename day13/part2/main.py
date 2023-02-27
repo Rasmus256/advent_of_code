@@ -8,49 +8,49 @@ EOMRev = False
 Result = 0
 
 def in_right_order(left, right):
-    print(f"starting processing {left} {type(left)}, {right} {type(right)}")
+    # print(f"starting processing {left} {type(left)}, {right} {type(right)}")
     if type(left) is int and type(right) is int:
         if left == right:
-            print("Left equal to right! No determination")
+            # print("Left equal to right! No determination")
             return None
         elif left < right:
-            print("Left less than right! In order")
+            # print("Left less than right! In order")
             return True
         else:
-            print("Right less than left! Not in order")
+            # print("Right less than left! Not in order")
             return False
-        print("Left less than right! In order")
+        # print("Left less than right! In order")
         return left < right
     elif type(left) is int:
-        print("Left is int, but not right. Wrapping left.")
+        # print("Left is int, but not right. Wrapping left.")
         return in_right_order([left], right)
     elif type(right) is int:
-        print("Right is int, but not right. Wrapping right.")
+        # print("Right is int, but not right. Wrapping right.")
         return in_right_order(left, [right])
     elif type(left) is list and type(right) is list:
-        print("left and right are lists.")
+        # print("left and right are lists.")
         if len(left) == 0 and len(right) > 0:
-            print("Left side ran out first! In order")
+            # print("Left side ran out first! In order")
             return True
         elif len(left) > 0 and len(right) > 0:
             in_order = in_right_order(left[0], right[0])
             if in_order == None:
-                print("No determination - trying next")
+                # print("No determination - trying next")
                 return in_right_order(left[1:], right[1:])
             elif in_order:
-                print("Comparison bubbling up - True!")
+                # print("Comparison bubbling up - True!")
                 return True
             else:
-                print("Comparison bubbling up - False!")
+                # print("Comparison bubbling up - False!")
                 return False
         elif len(left) > 0 and len(right) == 0:
-            print("Right side ran out first! Not in order")
+            # print("Right side ran out first! Not in order")
             return False
         elif len(left) == 0 and len(right) == 0:
-            print("Unable to determine order, as both sides were empty!")
+            # print("Unable to determine order, as both sides were empty!")
             return None
     else:
-        print(f"failed to process {left} {type(left)}, {right} {type(right)}")
+        # print(f"failed to process {left} {type(left)}, {right} {type(right)}")
         raise RuntimeError("unable to handle error")
 packets = []
 class MyListener(stomp.ConnectionListener):
@@ -67,16 +67,19 @@ class MyListener(stomp.ConnectionListener):
             Message = json.loads(message.body)
             left =  Message["left"]
             global packets
-            if len(packets) == 0:
+            inserted= False
+            for idx, right in enumerate(packets):
+                if in_right_order(left, right):
+                    print(f"inserting {left} between {packets[:idx]} and {packets[idx:]}")
+                    packets = packets[:idx] + left + packets[idx:]
+                    print(f"{message.body} is in right order! {Result} {Message['index']}" )
+                    print(f"{packets}")
+                    inserted=True
+                    break
+                else:
+                    print(f"{message.body} is not in right order! Try the next index!" )
+            if not inserted:
                 packets.append(left)
-            else:
-                for idx, right in enumerate(packets):
-                    if in_right_order(left, right):
-                        packets = packets[:idx] + left + packets[:idx]
-                        print(f"{message.body} is in right order! {Result} {Message['index']}" )
-                        print(f"{packets}")
-                    else:
-                        print(f"{message.body} is not in right order! Try the next index!" )
 
 hosts = [('amq.default.svc.cluster.local', 61613)]
 
