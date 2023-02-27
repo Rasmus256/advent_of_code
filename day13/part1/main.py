@@ -57,18 +57,15 @@ class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
         print('received an error "%s"' % message)
     def on_message(self, message):
+        global Result
         if message.body == "EOM":
             global EOMRev
-            global Result
             EOMRev = True
             print(f"res: {Result}")
         else:
             Message = json.loads(message.body)
             left =  Message["left"]
-            right = Message["right"]
-
-            global Result
-
+            right = Message["right"
             if in_right_order(left, right):
                 Result = Result + Message['index']
 hosts = [('amq.default.svc.cluster.local', 61613)]
