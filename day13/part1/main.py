@@ -78,7 +78,9 @@ file1 = open('puzzle_input.csv', 'r')
 
 Lines = file1.readlines()
 msg = {}
-for idx, line in Lines:
+idx = 0
+for line in Lines:
+    idx = idx+1
     line = line.strip()
     if line == "":
         r = line.strip()
