@@ -57,7 +57,7 @@ class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
         print('received an error "%s"' % message)
     def on_message(self, message):
-        print("-----------  --------   ------------   ----------")
+        # print("-----------  --------   ------------   ----------")
         
         global packets
         if message.body == "EOM":
@@ -110,7 +110,7 @@ for line in Lines:
         idx = idx+1
         msg['index'] = idx
         msg['left'] = json.loads(line)
-        print(json.dumps(msg))
+        # print(json.dumps(msg))
         conn.send(body=json.dumps(msg) , destination=topic)
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
