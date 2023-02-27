@@ -91,15 +91,14 @@ msg = {}
 idx = 0
 for line in Lines:
     line = line.strip()
-    if line == "":
+    if not line == "":
+        msg = {}
         r = line.strip()
         idx = idx+1
         msg['index'] = idx
+        msg['left'] = json.loads(line)
         print(json.dumps(msg))
         conn.send(body=json.dumps(msg) , destination=topic)
-        msg = {}
-    else:
-        msg['left'] = json.loads(line)
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
     print("Wating for EOM")
