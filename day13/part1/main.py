@@ -6,7 +6,7 @@ topic = "adventofcode.day13.part1"
 EOMRev = False
 
 def in_right_order(left, right):
-    true
+    True
 
 class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
