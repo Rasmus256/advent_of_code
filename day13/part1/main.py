@@ -84,7 +84,7 @@ for line in Lines:
     Msg['left'] = line
     if line.strip() == "":
         Msg['right'] = line
-        conn.send(body=json.dump(Msg) , destination=topic)
+        conn.send(body=json.dumps(Msg) , destination=topic)
         Msg = {}
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
