@@ -33,7 +33,7 @@ def in_right_order(left, right):
             return True
         elif len(left) > 0 and len(right) > 0:
             in_order = in_right_order(left[0], right[0])
-            if type(in_order) is None:
+            if in_order == None:
                 print("No determination - trying next")
                 return in_right_order(left[1:], right[1:])
             elif in_order:
