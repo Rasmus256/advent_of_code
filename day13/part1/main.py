@@ -30,7 +30,7 @@ def in_right_order(left, right):
             return None
     else:
         print(f"failed to process {left} {type(left)}, {right} {type(right)}")
-        raise
+        raise RuntimeError("unable to handle error")
 
 class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
