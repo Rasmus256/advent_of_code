@@ -5,6 +5,9 @@ import stomp
 topic = "adventofcode.day13.part1"
 EOMRev = False
 
+def in_right_order(left, right):
+    true
+
 class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
         print('received an error "%s"' % message)
@@ -17,6 +20,7 @@ class MyListener(stomp.ConnectionListener):
             right = message.body.split("\n")[1]
             print(f"l: {left}")
             print(f"r: {right}")
+            print(f"order: {in_right_order(left, right)}")
 
 hosts = [('amq.default.svc.cluster.local', 61613)]
 
@@ -32,7 +36,7 @@ for line in Lines:
     line = line.strip()
     Msg.append(line)
     if line.strip() == "":
-        conn.send(body=f"{Msg}" , destination=topic)
+        conn.send(body=f"{"\n".join(Msg)}" , destination=topic)
         Msg = []
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
