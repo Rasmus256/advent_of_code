@@ -17,7 +17,7 @@ def in_right_order(left, right):
     elif type(right) is int:
         print("Right is int, but not right. Wrapping right.")
         return in_right_order(left, [right])
-    elif left is list and right is list:
+    elif type(left) is list and type(right) is list:
         print("left and right are lists.")
         if len(left) == 0 and len(right) > 0:
             print("Left side ran out first! In order")
@@ -54,8 +54,6 @@ class MyListener(stomp.ConnectionListener):
             left =  message.body.split("\n")[0]
             right = message.body.split("\n")[1]
 
-            print(f"l: {left}")
-            print(f"r: {right}")
             left = json.loads(left)
             right = json.loads(right)
             print(f"l: {left}")
