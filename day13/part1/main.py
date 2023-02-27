@@ -67,7 +67,11 @@ class MyListener(stomp.ConnectionListener):
             left =  Message["left"]
             right = Message["right"]
             if in_right_order(left, right):
+                print(f"{message.Body} is in right order! {Result} {Message['index']}" )
                 Result = Result + Message['index']
+            else:
+                print(f"{message.Body} is not in right order!" )
+
 hosts = [('amq.default.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
@@ -85,7 +89,7 @@ for line in Lines:
     if line == "":
         r = line.strip()
         msg['index'] = idx+1
-        print(json.dumps(msg))
+        # print(json.dumps(msg))
         conn.send(body=json.dumps(msg) , destination=topic)
         msg = {}
     elif not 'left' in msg:
