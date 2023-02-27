@@ -6,6 +6,8 @@ import json
 topic = "adventofcode.day13.part2"
 EOMRev = False
 
+packets = []
+
 def in_right_order(left, right):
     # print(f"starting processing {left} {type(left)}, {right} {type(right)}")
     if type(left) is int and type(right) is int:
@@ -51,16 +53,16 @@ def in_right_order(left, right):
     else:
         # print(f"failed to process {left} {type(left)}, {right} {type(right)}")
         raise RuntimeError("unable to handle error")
-packets = []
 class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
         print('received an error "%s"' % message)
     def on_message(self, message):
         print("-----------  --------   ------------   ----------")
+        
+        global packets
         if message.body == "EOM":
             global EOMRev
             EOMRev = True
-            global packets
             idx = []
             for i, p in enumerate(packets):
                 if p == [[2]] or p == [[6]]:
@@ -68,7 +70,6 @@ class MyListener(stomp.ConnectionListener):
         else:
             Message = json.loads(message.body)
             left =  Message["left"]
-            global packets
             inserted= False
             for idx, right in enumerate(packets):
                 if in_right_order(left, right):
