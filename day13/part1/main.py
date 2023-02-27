@@ -24,9 +24,13 @@ conn.subscribe(destination=topic, id=131, ack='auto',headers = {'subscription-ty
 file1 = open('puzzle_input.csv', 'r')
 
 Lines = file1.readlines()
+Msg = []
 for line in Lines:
     line = line.strip()
-    conn.send(body=f"{line}" , destination=topic)
+    Msg.append(line)
+    if line.strip() == "":
+        conn.send(body=f"{Msg}" , destination=topic)
+        Msg = []
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
     print("Wating for EOM")
