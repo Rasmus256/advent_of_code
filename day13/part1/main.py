@@ -1,12 +1,19 @@
 import time
 
 import stomp
+import json
 
 topic = "adventofcode.day13.part1"
 EOMRev = False
 
 def in_right_order(left, right):
-    True
+    if type(left) is int and type(right) is int:
+        return left < right
+    if type(left) is int:
+        return in_right_order([left], right)
+    if type(right) is int:
+        return in_right_order(left, [right])
+    if left        
 
 class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
@@ -18,6 +25,11 @@ class MyListener(stomp.ConnectionListener):
         else:
             left =  message.body.split("\n")[0]
             right = message.body.split("\n")[1]
+
+            print(f"l: {left}")
+            print(f"r: {right}")
+            left = json.loads(left)
+            right = json.loads(right)
             print(f"l: {left}")
             print(f"r: {right}")
             print(f"order: {in_right_order(left, right)}")
