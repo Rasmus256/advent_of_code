@@ -87,7 +87,7 @@ for line in Lines:
         print(json.dumps(msg))
         conn.send(body=json.dumps(msg) , destination=topic)
         msg = {}
-    elif msg['left'] == None:
+    elif not 'left' in msg:
         msg['left'] = line
     else: 
         msg['right'] = line
