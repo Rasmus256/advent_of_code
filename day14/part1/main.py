@@ -30,8 +30,12 @@ for line in Lines:
     if len(segments) == 1:
         print(segments[0])
     for i in range(1,len(segments)):
-        print(f"{segments[i-1]}")
-    conn.send(body=f"{line}" , destination=topic)
+        print(f"{segments[i-1]} -> {segments[i]}")
+        startcoords = segments[i-1].split(",")
+        endcoords   = segments[i].split(",")
+        msg = {x0: startcoords[0],y0: startcoords[1],
+        x1: endcoords[0],y1: endcoords[1]}
+    conn.send(body=json.dumps(msg) , destination=topic)
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
     print("Wating for EOM")
