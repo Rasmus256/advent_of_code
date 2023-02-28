@@ -34,9 +34,15 @@ for line in Lines:
         print(f"{segments[i-1]} -> {segments[i]}")
         startcoords = segments[i-1].split(",")
         endcoords   = segments[i].split(",")
-        msg = {'x0': startcoords[0],'y0': startcoords[1],
-        'x1': endcoords[0],'y1': endcoords[1]}
-        conn.send(body=json.dumps(msg) , destination=topic)
+        if startcoords[0] == endcoords[0] : #vertical line
+            for y in range(startcoords[1], endcoords[1]) :
+                msg = {'x': startcoords[0],'y': y}
+                conn.send(body=json.dumps(msg) , destination=topic)
+        else: #horizontal line
+            for x in range(startcoords[0], endcoords[0]) :
+                msg = {'x': x,'y': startcoords[1]}
+                conn.send(body=json.dumps(msg) , destination=topic)
+
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
     print("Wating for EOM")
