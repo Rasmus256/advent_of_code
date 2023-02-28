@@ -36,7 +36,7 @@ for line in Lines:
         endcoords   = segments[i].split(",")
         msg = {'x0': startcoords[0],'y0': startcoords[1],
         'x1': endcoords[0],'y1': endcoords[1]}
-    conn.send(body=json.dumps(msg) , destination=topic)
+        conn.send(body=json.dumps(msg) , destination=topic)
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
     print("Wating for EOM")
