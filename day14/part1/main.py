@@ -33,8 +33,8 @@ for line in Lines:
         print(f"{segments[i-1]} -> {segments[i]}")
         startcoords = segments[i-1].split(",")
         endcoords   = segments[i].split(",")
-        msg = {x0: startcoords[0],y0: startcoords[1],
-        x1: endcoords[0],y1: endcoords[1]}
+        msg = {'x0': startcoords[0],'y0': startcoords[1],
+        'x1': endcoords[0],'y1': endcoords[1]}
     conn.send(body=json.dumps(msg) , destination=topic)
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
