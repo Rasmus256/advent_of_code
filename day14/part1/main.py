@@ -5,7 +5,7 @@ import json
 
 topic = "adventofcode.day14.part1"
 EOMRev = False
-
+rocks = set([])
 class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
         print('received an error "%s"' % message)
@@ -14,7 +14,7 @@ class MyListener(stomp.ConnectionListener):
             global EOMRev
             EOMRev = True
         else:
-            print(f"rec: {message.body}")
+            rocks.add(json.loads(message.body))
 
 hosts = [('amq.default.svc.cluster.local', 61613)]
 
@@ -35,33 +35,26 @@ for line in Lines:
     for i in range(1,len(segments)):
         startcoords = segments[i-1].split(",")
         endcoords   = segments[i].split(",")
-        print(f"start {startcoords}")
-        print(f"end {endcoords}")
         if startcoords[0] == endcoords[0] : #vertical line
             for y in range(min(int(startcoords[1]), int(endcoords[1])),max(int(startcoords[1]), int(endcoords[1]) )) :
                 msg = {'x': int(startcoords[0]),'y': y}
-                print(f"msg {msg}")
                 conn.send(body=json.dumps(msg) , destination=topic)
             msg = {'x': int(endcoords[0]),'y': endcoords[1]}
-            print(f"msg {msg}")
             conn.send(body=json.dumps(msg) , destination=topic)
             msg = {'x': int(startcoords[0]),'y': startcoords[1]}
-            print(f"msg {msg}")
             conn.send(body=json.dumps(msg) , destination=topic)
         else: #horizontal line
             for x in range(min(int(startcoords[0]), int(endcoords[0])),max(int(startcoords[0]), int(endcoords[0]) )) :
                 msg = {'x': x,'y': int(startcoords[1])}
-                print(f"msg {msg}")
                 conn.send(body=json.dumps(msg) , destination=topic)
             msg = {'x': int(endcoords[0]),'y': endcoords[1]}
-            print(f"msg {msg}")
             conn.send(body=json.dumps(msg) , destination=topic)
             msg = {'x': int(startcoords[0]),'y': startcoords[1]}
-            print(f"msg {msg}")
             conn.send(body=json.dumps(msg) , destination=topic)
 
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
     print("Wating for EOM")
     time.sleep(1)
+print(rocks)
 conn.disconnect()
