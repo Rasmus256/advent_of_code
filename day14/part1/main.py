@@ -32,7 +32,7 @@ for line in Lines:
         startcoords = segments[0].split(",")
         msg = {'x': int(startcoords[0]),'y': int(startcoords[1])}
         conn.send(body=json.dumps(msg) , destination=topic)
-    for i in range(1,len(segments)+1):
+    for i in range(1,len(segments)):
         startcoords = segments[i-1].split(",")
         endcoords   = segments[i].split(",")
         if startcoords[0] == endcoords[0] : #vertical line
