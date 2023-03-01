@@ -45,12 +45,18 @@ for line in Lines:
             msg = {'x': int(endcoords[0]),'y': endcoords[1]}
             print(f"msg {msg}")
             conn.send(body=json.dumps(msg) , destination=topic)
+            msg = {'x': int(startcoords[0]),'y': startcoords[1]}
+            print(f"msg {msg}")
+            conn.send(body=json.dumps(msg) , destination=topic)
         else: #horizontal line
             for x in rrange(min(int(startcoords[0]), int(endcoords[0])),max(int(startcoords[0]), int(endcoords[0]) )) :
                 msg = {'x': x,'y': int(startcoords[1])}
                 print(f"msg {msg}")
                 conn.send(body=json.dumps(msg) , destination=topic)
             msg = {'x': int(endcoords[0]),'y': endcoords[1]}
+            print(f"msg {msg}")
+            conn.send(body=json.dumps(msg) , destination=topic)
+            msg = {'x': int(startcoords[0]),'y': startcoords[1]}
             print(f"msg {msg}")
             conn.send(body=json.dumps(msg) , destination=topic)
 
