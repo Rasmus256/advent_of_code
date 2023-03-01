@@ -14,7 +14,7 @@ class MyListener(stomp.ConnectionListener):
             global EOMRev
             EOMRev = True
         else:
-            rocks.add(json.loads(message.body))
+            rocks.add(message.body)
 
 hosts = [('amq.default.svc.cluster.local', 61613)]
 
