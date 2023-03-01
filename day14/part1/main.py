@@ -14,7 +14,7 @@ class MyListener(stomp.ConnectionListener):
             global EOMRev
             EOMRev = True
         else:
-            print(f"{message.body}")
+            print(f"rec: {message.body}")
 
 hosts = [('amq.default.svc.cluster.local', 61613)]
 
@@ -35,17 +35,23 @@ for line in Lines:
     for i in range(1,len(segments)):
         startcoords = segments[i-1].split(",")
         endcoords   = segments[i].split(",")
+        print(f"start {startcoords}")
+        print(f"end {endcoords}")
         if startcoords[0] == endcoords[0] : #vertical line
             for y in range(int(startcoords[1]), int(endcoords[1])) :
                 msg = {'x': int(startcoords[0]),'y': y}
+                print(f"msg {msg}")
                 conn.send(body=json.dumps(msg) , destination=topic)
             msg = {'x': int(endcoords[0]),'y': endcoords[1]}
+            print(f"msg {msg}")
             conn.send(body=json.dumps(msg) , destination=topic)
         else: #horizontal line
             for x in range(int(startcoords[0]), int(endcoords[0])) :
                 msg = {'x': x,'y': int(startcoords[1])}
+                print(f"msg {msg}")
                 conn.send(body=json.dumps(msg) , destination=topic)
             msg = {'x': int(endcoords[0]),'y': endcoords[1]}
+            print(f"msg {msg}")
             conn.send(body=json.dumps(msg) , destination=topic)
 
 conn.send(body="EOM", destination=topic)
