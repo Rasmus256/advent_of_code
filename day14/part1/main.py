@@ -38,7 +38,7 @@ for line in Lines:
         print(f"start {startcoords}")
         print(f"end {endcoords}")
         if startcoords[0] == endcoords[0] : #vertical line
-            for y in range(int(startcoords[1]), int(endcoords[1])) :
+            for y in range(min(int(startcoords[1]), int(endcoords[1])),max(int(startcoords[1]), int(endcoords[1]) )) :
                 msg = {'x': int(startcoords[0]),'y': y}
                 print(f"msg {msg}")
                 conn.send(body=json.dumps(msg) , destination=topic)
@@ -46,7 +46,7 @@ for line in Lines:
             print(f"msg {msg}")
             conn.send(body=json.dumps(msg) , destination=topic)
         else: #horizontal line
-            for x in range(int(startcoords[0]), int(endcoords[0])) :
+            for x in rrange(min(int(startcoords[0]), int(endcoords[0])),max(int(startcoords[0]), int(endcoords[0]) )) :
                 msg = {'x': x,'y': int(startcoords[1])}
                 print(f"msg {msg}")
                 conn.send(body=json.dumps(msg) , destination=topic)
