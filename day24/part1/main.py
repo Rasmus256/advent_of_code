@@ -1,3 +1,37 @@
+import os
+translations = {}
+
+def calculateSum(name):
+    global translations
+    sum = 0
+    for idx, l in enumerate(name[::-1]):
+      sum = sum + translations[l]*pow(10, idx)
+    return sum
+
+firstinput = "send"
+secondinput = "world"
+thirdinput = "hi"
+
+letters = set(''.join(firstinput).join(secondinput).join(thirdinput))
+
+print(letters)
+
+for i in letters:
+    translations[i] = None
+
+def iterateoverLetters(letters, translations):
+    global firstinput
+    if len(letters) == 0:
+        print(calculateSum(firstinput))
+    if len(letters) >0:
+        for i in range(10):
+            tr = translations.copy()
+            tr[letters[0]] = i
+            iterateoverLetters(letters[1::], tr)
+
+iterateoverLetters(firstinput, translations)
+    
+print("-----")
 for s in range(10):
     for e in range(10):
         for n in range(10):
