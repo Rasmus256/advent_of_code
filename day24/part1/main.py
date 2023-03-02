@@ -1,10 +1,10 @@
-firstinput = "send"
-secondinput = "more"
-thirdinput = "money"
+import os
 
-print(firstinput)
-print(secondinput)
-print(thirdinput)
+firstinput = os.getenv("FIRST")
+secondinput = os.getenv("SECOND")
+thirdinput = os.getenv("THIRD")
+
+print(f"started with these parameter: {firstinput},{secondinput},{thirdinput}")
 
 def calculateSum(name, translations):
     sum = 0
@@ -18,7 +18,6 @@ def iterateoverLetters(letters, translations, level):
     if len(letters) == 0:
         if determineWhetherMatch(translations):
             print(translations)
-            print(f"{level}, {translations}")
     if len(letters) >0:
         for i in range(10):
             tr = translations.copy()
@@ -28,7 +27,7 @@ def iterateoverLetters(letters, translations, level):
 letters = list(set(''.join(firstinput).join(secondinput).join(thirdinput)))
 letters.sort()
 
-print(letters)
+print(f"These are the unique letters that we will look at for your input: {letters}")
 translations = {}
 for i in letters:
     translations[i] = 0
