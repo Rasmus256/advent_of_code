@@ -24,7 +24,7 @@ def iterateoverLetters(letters, translations, level):
             tr[letters[0]] = i
             iterateoverLetters(letters[1::], tr, level+1)
 
-letters = list(set(''.join(firstinput).join(secondinput).join(thirdinput)))
+letters = list(set(''.extend(firstinput).extend(secondinput).extend(thirdinput)))
 letters.sort()
 
 print(f"These are the unique letters that we will look at for your input: {letters}")
