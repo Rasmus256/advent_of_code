@@ -1,35 +1,34 @@
-import os
+import time
 
-firstinput = os.getenv("FIRST")
-secondinput = os.getenv("SECOND")
-thirdinput = os.getenv("THIRD")
+import stomp
 
-print(f"started with these parameter: {firstinput},{secondinput},{thirdinput}")
+topic = "adventofcode.day24.part1"
+EOMRev = False
 
-def calculateSum(name, translations):
-    sum = 0
-    for idx, l in enumerate(name[::-1]):
-      sum = sum + translations[l]*pow(10, idx)
-    return sum
-def determineWhetherMatch(translations):
-    global firstinput, secondinput, thirdinput
-    return calculateSum(firstinput, translations) + calculateSum(secondinput, translations) == calculateSum(thirdinput, translations)
-def iterateoverLetters(letters, translations, level):
-    if len(letters) == 0:
-        if determineWhetherMatch(translations):
-            print(translations)
-    if len(letters) >0:
-        for i in range(10):
-            tr = translations.copy()
-            tr[letters[0]] = i
-            iterateoverLetters(letters[1::], tr, level+1)
+class MyListener(stomp.ConnectionListener):
+    def on_error(self, headers, message):
+        print('received an error "%s"' % message)
+    def on_message(self, message):
+        if message.body == "EOM":
+            global EOMRev
+            EOMRev = True
+        else:
+            print(f"{message.body}")
 
-letters = list(set(''.join([firstinput,secondinput,thirdinput])))
-letters.sort()
+hosts = [('amq.default.svc.cluster.local', 61613)]
 
-print(f"These are the unique letters that we will look at for your input: {letters}")
-translations = {}
-for i in letters:
-    translations[i] = 0
+conn = stomp.Connection(host_and_ports=hosts)
+conn.set_listener('', MyListener()) 
+conn.connect('admin', 'admin', wait=True,headers = {'client-id': topic} )
+conn.subscribe(destination=topic, id=131, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
+file1 = open('puzzle_input.csv', 'r')
 
-iterateoverLetters(letters, translations, 0)
+Lines = file1.readlines()
+for line in Lines:
+    line = line.strip()
+    conn.send(body=f"{line}" , destination=topic)
+conn.send(body="EOM", destination=topic)
+while not EOMRev:
+    print("Wating for EOM")
+    time.sleep(1)
+conn.disconnect()
