@@ -5,7 +5,7 @@ import json
 
 topic = "adventofcode.day14.part1"
 EOMRev = False
-rocks = set([])
+rocks = {}
 class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
         print('received an error "%s"' % message)
@@ -14,7 +14,10 @@ class MyListener(stomp.ConnectionListener):
             global EOMRev
             EOMRev = True
         else:
-            rocks.add(message.body)
+            rock = json.loads(message.body)
+            if not rock.x in rocks:
+                rocks[rock.x] = []
+            rocks[rock.x].append(int(rock.y))
 
 hosts = [('amq.default.svc.cluster.local', 61613)]
 
@@ -57,4 +60,12 @@ while not EOMRev:
     print("Wating for EOM")
     time.sleep(1)
 print(rocks)
+for row in rocks:
+    rowString = ""
+    for i in range(10):
+        if i in rocks[row]:
+            rowString = rowString + "X"
+        else:
+            rowString = rowString + "*"
+    print(rowString)
 conn.disconnect()
