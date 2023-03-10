@@ -5,6 +5,8 @@ import json
 
 topic = "adventofcode.day14.part1"
 EOMRev = False
+RocksDone = False
+EquivalenceReached = False
 rocks = {}
 class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
@@ -13,13 +15,18 @@ class MyListener(stomp.ConnectionListener):
         if message.body == "EOM":
             global EOMRev
             EOMRev = True
-        else:
+        elif message.body == "ROCKSDONE":
+            RocksDone = True
+        elif not RocksDone:
             rock = json.loads(message.body)
             y = int(rock['y'])
             x = int(rock['x'])
             if not y in rocks:
                 rocks[y] = []
             rocks[y].append(x)
+        else:
+            print(f"Sand spawned at {message.body}")
+
 
 hosts = [('amq.default.svc.cluster.local', 61613)]
 
@@ -57,6 +64,8 @@ for line in Lines:
             msg = {'x': int(startcoords[0]),'y': startcoords[1]}
             conn.send(body=json.dumps(msg) , destination=topic)
 
+conn.send(body="ROCKSDONE", destination=topic)
+conn.send(body=json.dumps({'x':500, 'y':0}), destination=topic)
 conn.send(body="EOM", destination=topic)
 while not EOMRev:
     print("Wating for EOM")
