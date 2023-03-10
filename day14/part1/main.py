@@ -15,9 +15,9 @@ class MyListener(stomp.ConnectionListener):
             EOMRev = True
         else:
             rock = json.loads(message.body)
-            if not rock['x'] in rocks:
-                rocks[rock['x']] = []
-            rocks[rock['x']].append(int(rock['y']))
+            if not rock['y'] in rocks:
+                rocks[rock['y']] = []
+            rocks[rock['y']].append(int(rock['x']))
 
 hosts = [('amq.default.svc.cluster.local', 61613)]
 
