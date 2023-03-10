@@ -62,7 +62,7 @@ while not EOMRev:
 print(rocks)
 for row in rocks:
     rowString = ""
-    for i in range(10):
+    for i in range(494,504):
         if i in rocks[row]:
             rowString = rowString + "X"
         else:
