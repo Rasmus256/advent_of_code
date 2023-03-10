@@ -12,6 +12,7 @@ class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
         print('received an error "%s"' % message)
     def on_message(self, message):
+        global RocksDone
         if message.body == "EOM":
             global EOMRev
             EOMRev = True
@@ -26,7 +27,6 @@ class MyListener(stomp.ConnectionListener):
             rocks[y].append(x)
         else:
             print(f"Sand spawned at {message.body}")
-
 
 hosts = [('amq.default.svc.cluster.local', 61613)]
 
