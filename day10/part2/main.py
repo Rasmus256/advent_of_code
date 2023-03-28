@@ -25,7 +25,7 @@ def updateState(body, registers):
         print(registers)
 
 class MyListener(stomp.ConnectionListener):
-    def on_error(self, headers, message):
+    def on_error(self, message):
         print('received an error "%s"' % message)
     def on_message(self, message):
         global globalClock
