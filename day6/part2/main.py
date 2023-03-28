@@ -31,7 +31,7 @@ class MyListener(stomp.ConnectionListener):
               if allDifferent(offsetAndContent[1]):
                 countFromStart[offsetAndContent[2]] = int(offsetAndContent[0])
 
-hosts = [('amq.default.svc.cluster.local', 61613)]
+hosts = [('amq-hdls-svc.adventofcode.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
 conn.set_listener('', MyListener())

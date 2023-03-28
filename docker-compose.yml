@@ -105,7 +105,7 @@ services:
     build:
       context: ./day11/part2
       dockerfile: ./Dockerfile
-  # amq.default.svc.cluster.local:
+  # amq-hdls-svc.adventofcode.svc.cluster.local:
   #   image: rmohr/activemq
   #   container_name: 'amq'
   #   ports: 

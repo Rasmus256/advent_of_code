@@ -3,7 +3,7 @@ import sys
 
 import stomp
 
-hosts = [('amq.default.svc.cluster.local', 61613)]
+hosts = [('amq-hdls-svc.adventofcode.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
 conn.connect('admin', 'admin', wait=True,headers = {'client-id': 'clientname_reader'} )

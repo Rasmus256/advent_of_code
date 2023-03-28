@@ -91,7 +91,7 @@ class MyListener(stomp.ConnectionListener):
                 packets.append(left)
             # print(f"{packets}")
 
-hosts = [('amq.default.svc.cluster.local', 61613)]
+hosts = [('amq-hdls-svc.adventofcode.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
 conn.set_listener('', MyListener()) 
