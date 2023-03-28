@@ -3,6 +3,9 @@ import sys
 import re
 
 import stomp
+import os
+username = os.getenv("USERNAME")
+password = os.getenv("PASSWORD")
 
 piles = {
 #'1': ['Z','N'],
@@ -42,8 +45,8 @@ hosts = [('amq-hdls-svc.adventofcode.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
 conn.set_listener('', MyListener())
-conn.connect('admin', 'admin', wait=True,headers = {'client-id': 'day5_part2'} )
-conn.subscribe(destination='adventofcode.day5.part2', id=52, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
+conn.connect(username, password, wait=True,headers = {'client-id': 'day5_part2'} )
+conn.subscribe(destination='adventofcode.day5.part2::adventofcode.day5.part2', id=52, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
 
 file1 = open('puzzle_input.csv', 'r')
 

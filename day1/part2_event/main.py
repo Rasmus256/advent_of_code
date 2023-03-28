@@ -2,6 +2,9 @@ import time
 import sys
 
 import stomp
+import os
+username = os.getenv("USERNAME")
+password = os.getenv("PASSWORD")
 
 
 results=[]
@@ -21,8 +24,8 @@ hosts = [('amq-hdls-svc.adventofcode.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
 conn.set_listener('', MyListener())
-conn.connect('admin', 'admin', wait=True,headers = {'client-id': 'day2_part2'} )
-conn.subscribe(destination='adventofcode.day1', id=2, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
+conn.connect(username, password, wait=True,headers = {'client-id': 'day2_part2'} )
+conn.subscribe(destination='adventofcode.day1::adventofcode.day1', id=2, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
 
 while not EOMRev: 
     print("Waiting for EOM")

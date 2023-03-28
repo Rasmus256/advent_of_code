@@ -1,9 +1,14 @@
 import time
 import sys
-import os
 import re
 
 import stomp
+import os
+username = os.getenv("USERNAME")
+password = os.getenv("PASSWORD")
+import os
+username = os.getenv("USERNAME")
+password = os.getenv("PASSWORD")
 
 topic = "adventofcode.day10.part1"
 EOMRev = False
@@ -12,8 +17,6 @@ initDelay = 20
 incrementDelay = 40
 signalStrengths = []
 registers= {"x": 1}
-username = os.getenv("USERNAME")
-password = os.getenv("PASSWORD")
 
 def delay(body):
     if str(body) == "noop":

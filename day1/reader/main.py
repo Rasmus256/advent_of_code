@@ -2,13 +2,16 @@ import time
 import sys
 
 import stomp
+import os
+username = os.getenv("USERNAME")
+password = os.getenv("PASSWORD")
 
 hosts = [('amq-hdls-svc.adventofcode.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
-conn.connect('admin', 'admin', wait=True,headers = {'client-id': 'clientname_reader'} )
-conn.subscribe(destination='adventofcode.day1', id=91, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue_1'})
-conn.subscribe(destination='adventofcode.day1', id=91, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue_2'})
+conn.connect(username, password, wait=True,headers = {'client-id': 'clientname_reader'} )
+conn.subscribe(destination='adventofcode.day1::adventofcode.day1', id=91, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue_1'})
+conn.subscribe(destination='adventofcode.day1::adventofcode.day1', id=91, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue_2'})
 
 file1 = open('puzzle_input.csv', 'r')
 

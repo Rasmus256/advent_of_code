@@ -10,7 +10,7 @@ topic = "adventofcode.day9"
 hosts = [('amq-hdls-svc.adventofcode.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
-conn.connect('admin', 'admin', wait=True,headers = {'client-id': topic+"reader"} )
+conn.connect(username, password, wait=True,headers = {'client-id': topic+"reader"} )
 
 file1 = open('puzzle_input.csv', 'r')
 
