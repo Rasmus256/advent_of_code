@@ -6,9 +6,6 @@ import stomp
 import os
 username = os.getenv("USERNAME")
 password = os.getenv("PASSWORD")
-import os
-username = os.getenv("USERNAME")
-password = os.getenv("PASSWORD")
 
 topic = "adventofcode.day10.part1"
 EOMRev = False
