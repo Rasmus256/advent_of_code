@@ -1,5 +1,6 @@
 import time
 import sys
+import os
 import re
 
 import stomp
@@ -10,6 +11,8 @@ globalClock = 0
 TMPOut = []
 CRTOut= [[],[],[],[],[],[]]
 registers= {"x": 1}
+username = os.getenv("USERNAME")
+password = os.getenv("PASSWORD")
 
 def delay(body):
     if str(body) == "noop":
@@ -47,7 +50,7 @@ hosts = [('amq-hdls-svc.adventofcode.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
 conn.set_listener('', MyListener())
-conn.connect('admin', 'admin', wait=True,headers = {'client-id': topic} )
+conn.connect(username, password, wait=True,headers = {'client-id': topic} )
 conn.subscribe(destination=topic, id=91, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
 file1 = open('puzzle_input.csv', 'r')
 
