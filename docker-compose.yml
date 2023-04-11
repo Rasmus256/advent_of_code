@@ -90,30 +90,32 @@ services:
   #   build:
   #     context: ./day8/part2
   #     dockerfile: ./Dockerfile
-  # day9-part-1:
+  app:
+    build:
+      context: ./day14/part2
+      dockerfile: ./Dockerfile
+    environment:
+      - DEBUG=false
+    depends_on: 
+      amq-hdls-svc.adventofcode.svc.cluster.local:
+        condition: service_healthy
+  # day12-part-1:
   #   build:
-  #     context: ./day9/part1
+  #     context: ./day12/part1
   #     dockerfile: ./Dockerfile
-  #   depends_on: 
-  #     amq:
-  #       condition: service_healthy
-  day12-part-1:
-    build:
-      context: ./day12/part1
-      dockerfile: ./Dockerfile
-  day11-part-2:
-    build:
-      context: ./day11/part2
-      dockerfile: ./Dockerfile
-  # amq-hdls-svc.adventofcode.svc.cluster.local:
-  #   image: rmohr/activemq
-  #   container_name: 'amq'
-  #   ports: 
-  #     - 61613:61613
-  #     - 8161:8161
-  #     - 5672:5672
-  #   healthcheck:
-  #     test: ["CMD", "curl", "-f", "http://localhost:8161"]
-  #     interval: 1s
-  #     timeout: 1s
-  #     retries: 5
+  # day11-part-2:
+  #   build:
+  #     context: ./day11/part2
+  #     dockerfile: ./Dockerfile
+  amq-hdls-svc.adventofcode.svc.cluster.local:
+    image: rmohr/activemq
+    container_name: 'amq'
+    ports: 
+      - 61613:61613
+      - 8161:8161
+      - 5672:5672
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8161"]
+      interval: 1s
+      timeout: 1s
+      retries: 5

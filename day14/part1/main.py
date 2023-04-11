@@ -11,15 +11,34 @@ EOMRev = False
 RocksDone = False
 EquivalenceReached = False
 rocks = {}
+sand = {}
+maxSands = 999999
+
+def countSands(sand):
+    i = 0
+    for s in sand:
+        i = i + len(sand[s])
+
+    return i
+
+def getMinRock(rocks):
+    i = 0
+    for s in rocks:
+        i = min(i, min(rocks[s]))
+    return i
+
+def getMaxRock(rocks):
+    i = 0
+    for s in rocks:
+        i = max(i, max(rocks[s]))
+    return i
+
 class MyListener(stomp.ConnectionListener):
     def on_error(self, headers, message):
         print('received an error "%s"' % message)
     def on_message(self, message):
         global RocksDone
-        if message.body == "EOM":
-            global EOMRev
-            EOMRev = True
-        elif message.body == "ROCKSDONE":
+        if message.body == "ROCKSDONE":
             RocksDone = True
         elif not RocksDone:
             rock = json.loads(message.body)
@@ -29,15 +48,73 @@ class MyListener(stomp.ConnectionListener):
                 rocks[y] = []
             rocks[y].append(x)
         else:
-            print(f"Sand spawned at {message.body}")
+            print(f"Processing sand for {message.body}")
+            newSand = json.loads(message.body)
+            newSand = simulateSand(rocks, sand, newSand)
+            y = int(newSand['y'])
+            x = int(newSand['x'])
+            global EquivalenceReached
+            global maxSands
+            if y > max(rocks):
+                EquivalenceReached = True
+            else:
+                if not y in sand:
+                    sand[y] = []
+                if not x in sand[y]:
+                    sand[y].append(x)
+            numSands = countSands(sand)
+            print(numSands)
+            EquivalenceReached = EquivalenceReached or maxSands < numSands
+            if not EquivalenceReached:
+                global conn
+                conn.send(body=json.dumps({'x':500, 'y':0}), destination=topic)
+            else:
+                global EOMRev
+                EOMRev = True
+
+def prettyPrint(rocks, sand):
+    for row in range(0,max(rocks)+1):
+        rowString = f"{row}: "
+        for i in range(getMinRock(rocks),getMaxRock(rocks)):
+            if row in rocks and i in rocks[row]:
+                rowString = rowString + "#"
+            elif row in sand and i in sand[row]:
+                rowString = rowString + "o"
+            else:
+                rowString = rowString + "*"
+        print(rowString)
+
+def checkIfFree(rocks, sand, newPosition):
+    return not ((newPosition['y'] in rocks and newPosition['x'] in rocks[newPosition['y']]) or (newPosition['y'] in sand and newPosition['x'] in sand[newPosition['y']]))
+
+def simulateSand(rocks, sand, newSand):
+    y = int(newSand['y'])
+    x = int(newSand['x'])
+    if y > max(rocks):
+        return newSand
+    # Try to fall down
+    newPosition= {'x': x, 'y': y+1}
+    if checkIfFree(rocks, sand, newPosition):
+        return simulateSand(rocks, sand, newPosition)
+    # Try to fall down left
+    newPosition= {'x': x-1, 'y': y+1}
+    if checkIfFree(rocks, sand, newPosition):
+        return simulateSand(rocks, sand, newPosition)
+    # Try to fall down right
+    newPosition= {'x': x+1, 'y': y+1}
+    if checkIfFree(rocks, sand, newPosition):
+        return simulateSand(rocks, sand, newPosition)
+    # Default stay where it was
+    return newSand
+
 
 hosts = [('amq-hdls-svc.adventofcode.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
-conn.set_listener('', MyListener()) 
-conn.connect(username, password, wait=True,headers = {'client-id': topic} )
-conn.subscribe(destination=topic+"::"+topic, id=131, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
-file1 = open('puzzle_input.csv', 'r') 
+conn.set_listener('', MyListener())
+conn.connect('admin', 'admin', wait=True,headers = {'client-id': topic} )
+conn.subscribe(destination=topic, id=131, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
+file1 = open('puzzle_input.csv', 'r')
 
 Lines = file1.readlines()
 for line in Lines:
@@ -69,17 +146,8 @@ for line in Lines:
 
 conn.send(body="ROCKSDONE", destination=topic)
 conn.send(body=json.dumps({'x':500, 'y':0}), destination=topic)
-conn.send(body="EOM", destination=topic)
 while not EOMRev:
     print("Wating for EOM")
     time.sleep(1)
-print(rocks)
-for row in rocks:
-    rowString = ""
-    for i in range(494,504):
-        if i in rocks[row]:
-            rowString = rowString + "X"
-        else:
-            rowString = rowString + "*"
-    print(rowString)
+prettyPrint(rocks, sand)
 conn.disconnect()
