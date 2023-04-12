@@ -112,7 +112,7 @@ hosts = [('amq-hdls-svc.adventofcode.svc.cluster.local', 61613)]
 
 conn = stomp.Connection(host_and_ports=hosts)
 conn.set_listener('', MyListener())
-conn.connect('admin', 'admin', wait=True,headers = {'client-id': topic} )
+conn.connect(username, password, wait=True,headers = {'client-id': topic} )
 conn.subscribe(destination=topic, id=131, ack='auto',headers = {'subscription-type': 'MULTICAST','durable-subscription-name':'someValue'})
 file1 = open('puzzle_input.csv', 'r')
 
