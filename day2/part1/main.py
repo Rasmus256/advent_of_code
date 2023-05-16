@@ -9,7 +9,7 @@ def outcome(opp,our):
         return 0
 
 def inputToEnum(input):
-    if input == "A" or input == "X":
+    if input in ["A", "X"]:
         return "ROCK"
     if input == "B" or input == "Y":
         return "PAPER"
