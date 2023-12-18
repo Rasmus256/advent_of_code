@@ -1,8 +1,8 @@
 FROM python:3.11-slim-buster
 
-ADD main.py .
-ADD puzzle_input.csv .
-ADD requirements.txt .
+COPY main.py .
+COPY puzzle_input.csv .
+COPY requirements.txt .
 
 RUN pip install -r ./requirements.txt
 

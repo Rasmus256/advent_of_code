@@ -1,5 +1,5 @@
 FROM python:3.11-slim-buster
 
-ADD main.py .
-ADD puzzle_input.csv .
+COPY main.py .
+COPY puzzle_input.csv .
 CMD ["python", "./main.py"] 

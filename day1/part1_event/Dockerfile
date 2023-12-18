@@ -1,9 +1,9 @@
 
 FROM python:3.11-slim-buster
 
-ADD main.py .
+COPY main.py .
  
-ADD requirements.txt .
+COPY requirements.txt .
 
 RUN pip install -r ./requirements.txt
 
