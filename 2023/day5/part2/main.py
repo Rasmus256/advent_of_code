@@ -36,7 +36,7 @@ def maintask(filename):
         if seed_id_in_input(location_to_seed(i)):
             return i
         if i % 100000 == 0:
-            print("looped through " + str(i))
+            print("Status: looped through " + str(i))
 
 def seed_id_in_input(lookupId):
     global seeds
