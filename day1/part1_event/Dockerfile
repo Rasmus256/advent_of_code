@@ -1,5 +1,5 @@
 
-FROM python:3.11-slim-buster
+FROM python:3.13.0a3-slim
 
 COPY main.py .
  
