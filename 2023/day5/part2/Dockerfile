@@ -1,4 +1,4 @@
-FROM python:3.11-slim-buster AS test
+FROM python:3.13.0a3-slim AS test
 
 COPY main.py .
 COPY test.py .
@@ -10,7 +10,7 @@ RUN pip install -r ./requirements.txt
 CMD ["python", "./test.py"]
 RUN echo "TEST PASSED! HURRAY!"
 
-FROM python:3.11-slim-buster AS prod
+FROM python:3.13.0a3-slim AS prod
 COPY --from=test main.py .
 COPY --from=test requirements.txt .
 COPY puzzle_input.csv .
