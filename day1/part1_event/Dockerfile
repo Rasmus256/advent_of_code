@@ -1,5 +1,5 @@
 
-FROM python:3.13.0a5-slim
+FROM python:3.13.0a6-slim
 
 COPY main.py .
  
