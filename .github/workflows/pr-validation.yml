@@ -1,7 +1,11 @@
 name: Docker Image CI
 
 on:
-  push:
+  pull_request:
+    types:
+      - opened
+      - edited
+      - synchronize
     branches: [ "main" ]
 env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
@@ -28,5 +32,5 @@ jobs:
       day: ${{ matrix.value.d }}
       part: ${{ matrix.value.p }}
       tag: "2.1.${{github.run_number}}"
-      push: "true"
+      push: "false"
     secrets: inherit
