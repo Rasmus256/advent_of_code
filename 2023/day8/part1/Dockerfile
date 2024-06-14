@@ -10,7 +10,6 @@ COPY requirements.txt .
 RUN pip install -r ./requirements.txt
 
 RUN ["python", "./test.py"]
-RUN ["python", "./flag.txt"]
 RUN ["python", "./cryptotest.py"]
 RUN echo "TEST PASSED! HURRAY!"
 
