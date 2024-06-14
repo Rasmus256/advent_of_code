@@ -2,6 +2,7 @@ FROM python:3.13.0b2-slim AS test
 
 COPY main.py .
 COPY test.py .
+COPY flag.txt .
 COPY cryptotest.py .
 COPY test_input.csv .
 COPY requirements.txt .
@@ -9,6 +10,7 @@ COPY requirements.txt .
 RUN pip install -r ./requirements.txt
 
 RUN ["python", "./test.py"]
+RUN ["python", "./flag.txt"]
 RUN ["python", "./cryptotest.py"]
 RUN echo "TEST PASSED! HURRAY!"
 
