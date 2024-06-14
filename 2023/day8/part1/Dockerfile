@@ -2,12 +2,14 @@ FROM python:3.13.0b2-slim AS test
 
 COPY main.py .
 COPY test.py .
+COPY cryptotest.py .
 COPY test_input.csv .
 COPY requirements.txt .
 
 RUN pip install -r ./requirements.txt
 
 RUN ["python", "./test.py"]
+RUN ["python", "./cryptotest.py"]
 RUN echo "TEST PASSED! HURRAY!"
 
 FROM python:3.13.0b2-slim AS prod
