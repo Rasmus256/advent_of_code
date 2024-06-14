@@ -12,6 +12,9 @@ on:
       tag:
         required: true
         type: string
+      push:
+        required: true
+        type: string
     secrets:
       DOCKERHUB_PASSWORD:
         required: true
@@ -46,7 +49,7 @@ jobs:
       with:
         file: ${{inputs.day}}/${{inputs.part}}/Dockerfile
         context: ${{inputs.day}}/${{inputs.part}}
-        push: true
+        push: ${{inputs.push}}
         tags: |
           rasmus256docker/advent_of_code_${{ inputs.day }}_${{ inputs.part}}:latest
           rasmus256docker/advent_of_code_${{ inputs.day }}_${{ inputs.part}}:${{inputs.tag}}

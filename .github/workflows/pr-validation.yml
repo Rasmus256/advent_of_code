@@ -28,5 +28,5 @@ jobs:
       day: ${{ matrix.value.d }}
       part: ${{ matrix.value.p }}
       tag: "2.1.${{github.run_number}}"
-      push: "true"
+      push: "false"
     secrets: inherit
