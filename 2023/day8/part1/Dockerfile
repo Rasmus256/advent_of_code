@@ -1,4 +1,4 @@
-FROM python:3.13.0rc3-slim AS test
+FROM python:3.13.0-slim AS test
 
 COPY main.py .
 COPY test.py .
@@ -12,7 +12,7 @@ RUN ["python", "./test.py"]
 RUN ["python", "./cryptotest.py"]
 RUN echo "TEST PASSED! HURRAY!"
 
-FROM python:3.13.0rc3-slim AS prod
+FROM python:3.13.0-slim AS prod
 COPY --from=test main.py .
 COPY --from=test requirements.txt .
 COPY puzzle_input.csv .
