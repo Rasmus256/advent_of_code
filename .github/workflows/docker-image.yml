@@ -25,6 +25,7 @@ jobs:
         value: ${{fromJson(needs.setup.outputs.matrix_p1)}}
     uses: Rasmus256/advent_of_code/.github/workflows/template.yml@main
     with:
+      year: "2022"
       day: ${{ matrix.value.d }}
       part: ${{ matrix.value.p }}
       tag: "2.1.${{github.run_number}}"
