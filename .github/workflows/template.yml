@@ -9,6 +9,9 @@ on:
       part:
         required: true
         type: string
+      year:
+        required: true
+        type: string
       tag:
         required: true
         type: string
@@ -22,7 +25,7 @@ env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 jobs:
   build:
-    name: build-${{inputs.day}}/${{inputs.part}}/${{inputs.tag}}
+    name: build-${{inputs.year}}-${{inputs.day}}/${{inputs.part}}/${{inputs.tag}}
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
@@ -31,7 +34,7 @@ jobs:
       with:
         filters: |
           runneeded:
-            - ${{inputs.day}}/${{inputs.part}}/*
+            - ${{inputs.year}}/${{inputs.day}}/${{inputs.part}}/*
     - if: steps.filter.outputs.runneeded == 'true'
       name: Docker Login
     # You may pin to the exact commit or the version.
@@ -47,9 +50,9 @@ jobs:
     - if: steps.filter.outputs.runneeded == 'true'
       uses: docker/build-push-action@v5
       with:
-        file: ${{inputs.day}}/${{inputs.part}}/Dockerfile
-        context: ${{inputs.day}}/${{inputs.part}}
+        file: ${{inputs.year}}/${{inputs.day}}/${{inputs.part}}/Dockerfile
+        context: ${{inputs.year}}/${{inputs.day}}/${{inputs.part}}
         push: ${{inputs.push}}
         tags: |
-          rasmus256docker/advent_of_code_${{ inputs.day }}_${{ inputs.part}}:latest
-          rasmus256docker/advent_of_code_${{ inputs.day }}_${{ inputs.part}}:${{inputs.tag}}
+          rasmus256docker/advent_of_code_${{inputs.year}}_${{ inputs.day }}_${{ inputs.part}}:latest
+          rasmus256docker/advent_of_code_${{inputs.year}}_${{ inputs.day }}_${{ inputs.part}}:${{inputs.tag}}
