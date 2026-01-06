@@ -47,7 +47,8 @@ jobs:
         password: ${{ secrets.DOCKERHUB_PASSWORD }}
 
 
-    - if: steps.filter.outputs.runneeded == 'true'
+    - 
+    #if: steps.filter.outputs.runneeded == 'true'
       uses: docker/build-push-action@v5
       with:
         file: ${{inputs.year}}/${{inputs.day}}/${{inputs.part}}/Dockerfile
