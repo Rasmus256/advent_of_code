@@ -2,6 +2,7 @@ FROM python:3.14.2-slim AS test
 
 COPY main.py .
 COPY test.py .
+COPY flag.txt .
 COPY cryptotest.py .
 COPY test_input.csv .
 COPY requirements.txt .
