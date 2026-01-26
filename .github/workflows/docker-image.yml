@@ -7,7 +7,7 @@ env:
   ACTIONS_ALLOW_UNSECURE_COMMANDS: true
 jobs:
   setup:
-    runs-on: ubuntu-slim
+    runs-on: ubuntu-latest
     outputs:
       matrix_p1: ${{ steps.matrix.outputs.value }}
       tag: ${{ steps.tag.outputs.tag }}
