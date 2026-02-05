@@ -1,5 +1,5 @@
 
-FROM python:3.14.2-slim
+FROM python:3.14.3-slim
 
 COPY main.py .
 COPY puzzle_input.csv .
