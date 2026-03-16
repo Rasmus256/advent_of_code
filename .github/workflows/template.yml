@@ -29,7 +29,7 @@ jobs:
     runs-on: ubuntu-latest
     steps:
     - uses: actions/checkout@34e114876b0b11c390a56381ad16ebd13914f8d5 # v4
-    - uses: dorny/paths-filter@v3
+    - uses: dorny/paths-filter@de90cc6fb38fc0963ad72b210f1f284cd68cea36 # v3
       id: filter
       with:
         filters: |
@@ -39,7 +39,7 @@ jobs:
       name: Docker Login
     # You may pin to the exact commit or the version.
     # uses: docker/login-action@f4ef78c080cd8ba55a85445d5b36e214a81df20a
-      uses: docker/login-action@v3.7.0
+      uses: docker/login-action@c94ce9fb468520275223c153574b00df6fe4bcc9 # v3.7.0
       with:
         # Username used to log against the Docker registry
         username: rasmus256docker
@@ -49,7 +49,7 @@ jobs:
 
     - 
     #if: steps.filter.outputs.runneeded == 'true'
-      uses: docker/build-push-action@v5
+      uses: docker/build-push-action@ca052bb54ab0790a636c9b5f226502c73d547a25 # v5
       with:
         file: ${{inputs.year}}/${{inputs.day}}/${{inputs.part}}/Dockerfile
         context: ${{inputs.year}}/${{inputs.day}}/${{inputs.part}}
