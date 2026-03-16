@@ -1,7 +1,6 @@
-
 {
   "extends": [
-    "github>rasmus256/renovateConfigs#v1.0.0",
-    "github>rasmus225/renovateConfigs:github-actions#v1.0.0"
+    "github>rasmus256/renovatebotConfigs#v1.0.0",
+    "github>rasmus225/renovatebotConfigs:github-actions#v1.0.0"
   ]
 }
