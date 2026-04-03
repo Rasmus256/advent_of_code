@@ -12,7 +12,7 @@ with open("flag.txt", "rb") as f:
 
 assert len(flag) == 31
 # pad flag
-int_flag = bytes_to_long(flag)
+int_flag = bytes_to_long(flag) 
 
 ct = pow(int_flag, e, n)
 

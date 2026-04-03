@@ -18,7 +18,7 @@ jobs:
     steps:
       - id: matrix
         run: |
-          echo '::set-output name=value::[{d: "day1", p: "part1"},{d: "day1", p: "part1_event"},{d: "day1", p: "part2_event"},{d: "day1", p: "event"},{d: "day1", p: "reader"},{d: "day2", p: "part1"},{d: "day3", p: "part1"},{d: "day4", p: "part1"},{d: "day5", p: "part1"},{d: "day6", p: "part1"},{d: "day7", p: "part1"},{d: "day8", p: "part1"},{d: "day9", p: "part1"},{d: "day1", p: "part2"},{d: "day2", p: "part2"},{d: "day3", p: "part2"},{d: "day4", p: "part2"},{d: "day5", p: "part2"},{d: "day6", p: "part2"},{d: "day7", p: "part2"},{d: "day8", p: "part2"},{d: "day9", p: "part2"},{d: "day9", p: "reader"},{d: "day10", p: "part1"},{d: "day10", p: "part2"},{d: "day11", p: "part1"},{d: "day11", p: "part2"},{d: "day12", p: "part1"},{d: "day12", p: "part2"},{d: "day13", p: "part1"},{d: "day13", p: "part2"},{d: "day14", p: "part1"},{d: "day14", p: "part2"},{d: "day15", p: "part1"},{d: "day15", p: "part2"},{d: "day16", p: "part1"},{d: "day16", p: "part2"},{d: "day17", p: "part1"},{d: "day17", p: "part2"},{d: "day18", p: "part1"},{d: "day18", p: "part2"},{d: "day19", p: "part1"},{d: "day19", p: "part2"},{d: "day20", p: "part1"},{d: "day20", p: "part2"},{d: "day21", p: "part1"},{d: "day21", p: "part2"},{d: "day22", p: "part1"},{d: "day22", p: "part2"},{d: "day23", p: "part1"},{d: "day23", p: "part2"},{d: "day24", p: "part1"},{d: "day24", p: "part2"},{d: "day25", p: "part1"},{d: "day25", p: "part2"}]'
+          echo '::set-output name=value::[{d: "2023/day8", p: "part1"}]'
       - id: tag
         run: |
           echo "::set-output name=tag::$(date +'%s')"
