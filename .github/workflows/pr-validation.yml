@@ -27,7 +27,7 @@ jobs:
     strategy:
       matrix:
         value: ${{fromJson(needs.setup.outputs.matrix_p1)}}
-    uses: Rasmus256/advent_of_code/.github/workflows/template.yml@main
+    uses: Rasmus256/advent_of_code/.github/workflows/template.yml@3eb3d4968afb5bcba73ac94d32c6a145f0881237 # main
     with:
       year: "2022" 
       day: ${{ matrix.value.d }}
